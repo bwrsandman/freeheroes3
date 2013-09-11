@@ -1,0 +1,13 @@
+| contents           | size                      | type  | description (optional)                      |
+--------------------------------------------------------------------------------------------------------
+| map version        | 0x4                       | int   | Restoration(14), Armageddon(21), Shadow(28) |
+| playable           | 0x1                       | bool  | Not certain, adding a player turns true     |
+| map_size           | 0x4                       | int   |                                             |
+| has underground    | 0x1                       | bool  |                                             |
+| title length       | 0x4                       | int   |                                             |
+| title              | title length              | str   |                                             |
+| description length | 0x4                       | int   |                                             |
+| description        | description length        | str   |                                             |
+| difficulty         | 0x1                       | int   |                                             |
+| unknown#1          | 0x76                      | bytes | 0x13 + 0x76 = 0x89 if title and desc = ""   |
+| tile               | 0x7 * map_size * map_size | grid  | water (0x15, 0x19)  (0x90)                  |
