@@ -59,6 +59,21 @@ end
 filename = 'h3m.README'
 mapdir = "TestMaps"
 
+function string:substitute(map)
+    ret = nil
+    if not self:match("%*") then
+        ret = map[self]
+    else -- Contains multiplier, perform calculation
+        ret = nil
+        for i, x in pairs(self:split("*")) do
+            x = x:trim()
+            x = map[x] or x
+            ret = x * (ret or 1)
+        end
+    end
+    return ret
+end
+
 function love.load()
     local lfs = love.filesystem
     desc = h3m_description.read(filename)
@@ -75,24 +90,14 @@ function love.load()
                 z = v.datalen
                 t = v.datatype
                 if t == "int" or t == "bytes" or t == "bool" then
-                    z = tonumber(z)
+                    z = tonumber(z) or tonumber(z:substitute(h3m_map))
                 -- Variable sizes
                 elseif t == "str" or t == "grid" then
-                    if not z:match("%*") then
-                        z = h3m_map[z]
-                    else -- Contains multiplier, perform calculation
-                        new_z = nil
-                        for i, x in pairs(z:split("*")) do
-                            x = x:trim()
-                            x = h3m_map[x] or x
-                            new_z = x * (new_z or 1)
-                        end
-                        z = new_z or z
-                    end
+                    z = tonumber(z:substitute(h3m_map)) or tonumber(z)
                 end
                 portion = contents:sub(cleared, cleared + z - 1)
                 if t == "bytes" then
-                    h3m_map[k] = string.format("%q", portion)
+                    h3m_map[k] = string.format("offset: 0x%x, data: %q", cleared - 1, portion)
                 elseif t == "int" then
                     h3m_map[k] = portion:bytes_to_int()
                 elseif t == "bool" then
@@ -103,7 +108,7 @@ function love.load()
                     h3m_map[k] = portion
                 end
                 cleared = cleared + z
-                print(j, k, h3m_map[k], z)
+                print(j, k, h3m_map[k])
             end
             print()
         end
