@@ -13,11 +13,20 @@
 | red player human        | 0x1                                     | bool  |                                             |
 | red player exists       | 0x1                                     | bool  |                                             |
 | red player behaviour    | 0x1                                     | bytes |                                             |
+| unknown#2               | map_version == 0x1C                     | bytes |                                             |
 | red_has_hero1           | 0x1                                     | bool  |                                             |
-| unknown#2               | 0x3                                     | bytes |                                             |
+| unknown#3               | map_version != 0xE                      | bytes |                                             |
+| unknown#4               | 0x3                                     | bytes |                                             |
 | red hero#1              | 0x1 * red_has_hero1                     | int   | only if hero exists                         |
 | redblue_ff              | 0x1                                     | bytes | should be 0xff                              |
-| red_hero1_name_length   | red_has_hero1 * 0x4                     | int   |                                             |
-| customname              | red_hero1_name_length                   | str   |                                             |
-| unknown#3               | 0x69                                    | bytes |                                             |
-| tile                    | 0x7 * map_size * map_size               | grid  | water (0x15, 0x19)  (0x90)                  |
+| red_hero1_name_length   | 0x4 * red_has_hero1                     | int   |                                             |
+| red_hero1_customname    | red_hero1_name_length                   | str   |                                             |
+| unknown#5               | 0x2                                     | bytes |                                             |
+| blue_has_hero1          | 0x1                                     | bool  |                                             |
+| unknown#6               | 0x2                                     | bytes |                                             |
+| red hero#1re            | 0x1 * red_has_hero1                     | int   | only if hero exists                         |
+| red_hero1_name_length_re| 0x4 * red_has_hero1                     | int   |                                             |
+| red_hero1_customname_re | red_hero1_name_length_re                | str   |                                             |
+| unknown#7               | 0x2                                     | bytes |                                             |
+| unknown#8               | map_version == 0x1C                     | bytes |                                             |
+| unknown#9               | 0x64                                    | bytes |                                             |

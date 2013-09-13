@@ -48,7 +48,7 @@ function h3m_description.read(filename)
 end
 
 function h3m_description.serialize(description)
-    ret = ""
+    local ret = ""
     for i, v in ipairs(description) do
             ret = ret..v.datalabel..": "..v.datalen..", "..v.datatype.."\n"
     end
@@ -60,8 +60,8 @@ filename = 'h3m.README'
 mapdir = "TestMaps"
 
 function string:substitute(map)
-    s = self:trim()
-    ret = map[s]
+    local s = self:trim()
+    local ret = map[s]
     if ret == nil then
         ret = s
     elseif type(ret) == "boolean" then
@@ -73,7 +73,8 @@ function string:substitute(map)
 end
 
 function string:calculate(map)
-    ret = nil
+    local ret = nil
+    local eq = nil
     if self:match("!=") then
         eq = self:split("!=")
         assert(#eq == 2)
@@ -84,8 +85,9 @@ function string:calculate(map)
         ret = (eq[1]:substitute(map) == eq[2]:substitute(map)) and 1 or 0
     -- Contains multiplier, perform calculation
     elseif self:match("%*") then
+        ret = 1
         for i, x in pairs(self:split("*")) do
-            ret = x:substitute(map) * (ret or 1)
+            ret = x:substitute(map) * ret
         end
     else
         ret = map[self]
