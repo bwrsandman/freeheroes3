@@ -35,6 +35,17 @@ def read_h3m_description():
         file_legend.append(trips)
     return file_legend
 
+def substitute(string, h3m_map):
+    ret = string.strip()
+    if not ret:
+        return
+    try:
+        ret = int(ret, 0)
+    except:
+        ret = int(h3m_map[ret])
+    return ret
+
+
 
 file_legend = read_h3m_description()
 
@@ -50,16 +61,16 @@ for mapname in os.listdir("TestMaps"):
                 size = int(z)
             except ValueError:
                 # A string, find corresponding value, mult if needed.
-                #size = int(h3m_map(z))
-                size = 1
-                for i in z.split("*"):
-                    i = i.strip()
-                    if not i:
-                        continue
-                    try:
-                        size *= int(i, 0)
-                    except:
-                        size *= int(h3m_map[i])
+                neq = z.split("!=")
+                eq = z.split("==")
+                if len(neq) == 2:
+                    size = int(substitute(neq[0], h3m_map) != substitute(neq[1], h3m_map))
+                elif len(eq) == 2:
+                    size = int(substitute(eq[0], h3m_map) == substitute(eq[1], h3m_map))
+                else:
+                    size = 1
+                    for i in z.split("*"):
+                        size *= substitute(i, h3m_map)
             buf = h3m.read(size)
             if t in [int, bool]:
                 buf = t.from_bytes(buf, byteorder='little')
