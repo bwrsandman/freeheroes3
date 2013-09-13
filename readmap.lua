@@ -60,17 +60,38 @@ filename = 'h3m.README'
 mapdir = "TestMaps"
 
 function string:substitute(map)
-    ret = nil
-    if not self:match("%*") then
-        ret = map[self]
-    else -- Contains multiplier, perform calculation
-        ret = nil
-        for i, x in pairs(self:split("*")) do
-            x = x:trim()
-            x = map[x] or x
-            ret = x * (ret or 1)
-        end
+    s = self:trim()
+    ret = map[s]
+    if ret == nil then
+        ret = s
+    elseif type(ret) == "boolean" then
+        ret = ret and 1 or 0
     end
+    ret = tonumber(ret)
+    assert(ret ~= nil)
+    return ret
+end
+
+function string:calculate(map)
+    ret = nil
+    if self:match("!=") then
+        eq = self:split("!=")
+        assert(#eq == 2)
+        ret = (eq[1]:substitute(map) ~= eq[2]:substitute(map)) and 1 or 0
+    elseif self:match("==") then
+        eq = self:split("==")
+        assert(#eq == 2)
+        ret = (eq[1]:substitute(map) == eq[2]:substitute(map)) and 1 or 0
+    -- Contains multiplier, perform calculation
+    elseif self:match("%*") then
+        for i, x in pairs(self:split("*")) do
+            ret = x:substitute(map) * (ret or 1)
+        end
+    else
+        ret = map[self]
+    end
+    tonumber(ret)
+    assert(ret ~= nil)
     return ret
 end
 
@@ -90,10 +111,10 @@ function love.load()
                 z = v.datalen
                 t = v.datatype
                 if t == "int" or t == "bytes" or t == "bool" then
-                    z = tonumber(z) or tonumber(z:substitute(h3m_map))
+                    z = tonumber(z) or z:calculate(h3m_map)
                 -- Variable sizes
                 elseif t == "str" or t == "grid" then
-                    z = tonumber(z:substitute(h3m_map)) or tonumber(z)
+                    z = z:calculate(h3m_map) or tonumber(z)
                 end
                 portion = contents:sub(cleared, cleared + z - 1)
                 if t == "bytes" then

@@ -1,6 +1,6 @@
 | contents                | size                                    | type  | description (optional)                      |
 ---------------------------------------------------------------------------------------------------------------------------
-| map version             | 0x4                                     | int   | Restoration(14), Armageddon(21), Shadow(28) |
+| map_version             | 0x4                                     | int   | Restoration(14), Armageddon(21), Shadow(28) |
 | playable                | 0x1                                     | bool  | Not certain, adding a player turns true     |
 | map_size                | 0x4                                     | int   |                                             |
 | has underground         | 0x1                                     | bool  |                                             |
@@ -9,14 +9,15 @@
 | description length      | 0x4                                     | int   |                                             |
 | description             | description length                      | str   |                                             |
 | difficulty              | 0x1                                     | int   |                                             |
+| unknown#1               | map_version != 0xE                      | bytes |                                             |
 | red player human        | 0x1                                     | bool  |                                             |
 | red player exists       | 0x1                                     | bool  |                                             |
-| unknown#1               | 0x1                                     | bytes | 0x13 + 0x76 = 0x89 if title and desc = ""   |
-| red_has_hero1           | 0x1                                     | int   |                                             |
-| unknown#2               | 0x3                                     | bytes | 0x13 + 0x76 = 0x89 if title and desc = ""   |
+| red player behaviour    | 0x1                                     | bytes |                                             |
+| red_has_hero1           | 0x1                                     | bool  |                                             |
+| unknown#2               | 0x3                                     | bytes |                                             |
 | red hero#1              | 0x1 * red_has_hero1                     | int   | only if hero exists                         |
 | redblue_ff              | 0x1                                     | bytes | should be 0xff                              |
 | red_hero1_name_length   | red_has_hero1 * 0x4                     | int   |                                             |
 | customname              | red_hero1_name_length                   | str   |                                             |
-| unknown#3               | 0x69                                    | bytes | 0x13 + 0x76 = 0x89 if title and desc = ""   |
+| unknown#3               | 0x69                                    | bytes |                                             |
 | tile                    | 0x7 * map_size * map_size               | grid  | water (0x15, 0x19)  (0x90)                  |
