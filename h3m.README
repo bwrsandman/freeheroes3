@@ -12,21 +12,91 @@
 | unknown#1               | map_version != 0xE                      | bytes |                                             |
 | red player human        | 0x1                                     | bool  |                                             |
 | red player exists       | 0x1                                     | bool  |                                             |
-| red player behaviour    | 0x1                                     | bytes |                                             |
-| unknown#2               | map_version == 0x1C                     | bytes |                                             |
-| red_has_hero1           | 0x1                                     | bool  |                                             |
-| unknown#3               | map_version != 0xE                      | bytes |                                             |
-| unknown#4               | 0x3                                     | bytes |                                             |
-| red hero#1              | 0x1 * red_has_hero1                     | int   | only if hero exists                         |
-| redblue_ff              | 0x1                                     | bytes | should be 0xff                              |
-| red_hero1_name_length   | 0x4 * red_has_hero1                     | int   |                                             |
+| red player behaviour    | 0x1                                     | int   |                                             |
+| red unknown#1           | map_version == 0x1C                     | bytes |                                             |
+| red_playable            | 0x1                                     | bytes |                                             |
+| red unknown#2           | map_version != 0xE                      | bytes |                                             |
+| red unknown#3           | 0x3                                     | bytes |                                             |
+| red hero#1              | 0x1 * red_playable                      | int   | only if hero exists                         |
+| red_ff                  | 0x1                                     | bytes | should be 0xff                              |
+| red_hero1_name_length   | 0x4 * red_playable                      | int   |                                             |
 | red_hero1_customname    | red_hero1_name_length                   | str   |                                             |
-| unknown#5               | 0x2                                     | bytes |                                             |
-| blue_has_hero1          | 0x1                                     | bool  |                                             |
-| unknown#6               | 0x2                                     | bytes |                                             |
-| red hero#1re            | 0x1 * red_has_hero1                     | int   | only if hero exists                         |
-| red_hero1_name_length_re| 0x4 * red_has_hero1                     | int   |                                             |
-| red_hero1_customname_re | red_hero1_name_length_re                | str   |                                             |
-| unknown#7               | 0x2                                     | bytes |                                             |
-| unknown#8               | map_version == 0x1C                     | bytes |                                             |
-| unknown#9               | 0x64                                    | bytes |                                             |
+| blue player human       | 0x1                                     | bool  |                                             |
+| blue player exists      | 0x1                                     | bool  |                                             |
+| blue player behaviour   | 0x1                                     | int   |                                             |
+| blue unknown#1          | map_version == 0x1C                     | bytes |                                             |
+| blue_playable           | 0x1                                     | bool  |                                             |
+| blue unknown#2          | map_version != 0xE                      | bytes |                                             |
+| blue unknown#3          | 0x3                                     | bytes |                                             |
+| blue hero#1             | 0x1 * blue_playable                     | int   | only if hero exists                         |
+| blue_ff                 | 0x1                                     | bytes | should be 0xff                              |
+| tan player human        | 0x1                                     | bool  |                                             |
+| tan player exists       | 0x1                                     | bool  |                                             |
+| tan player behaviour    | 0x1                                     | int   |                                             |
+| tan unknown#1           | map_version == 0x1C                     | bytes |                                             |
+| tan_playable            | 0x1                                     | bool  |                                             |
+| tan unknown#2           | map_version != 0xE                      | bytes |                                             |
+| tan unknown#3           | 0x3                                     | bytes |                                             |
+| tan hero#1              | 0x1 * tan_playable                      | int   | only if hero exists                         |
+| tan_ff                  | 0x1                                     | bytes | should be 0xff                              |
+| tan_hero1_name_length   | 0x4 * tan_playable                      | int   |                                             |
+| tan_hero1_customname    | tan_hero1_name_length                   | str   |                                             |
+| green player human      | 0x1                                     | bool  |                                             |
+| green player exists     | 0x1                                     | bool  |                                             |
+| green player behaviour  | 0x1                                     | int   |                                             |
+| green unknown#1         | map_version == 0x1C                     | bytes |                                             |
+| green_playable          | 0x1                                     | bool  |                                             |
+| green unknown#2         | map_version != 0xE                      | bytes |                                             |
+| green unknown#3         | 0x3                                     | bytes |                                             |
+| green hero#1            | 0x1 * green_playable                    | int   | only if hero exists                         |
+| green_ff                | 0x1                                     | bytes | should be 0xff                              |
+| green_hero1_name_length | 0x4 * green_playable                    | int   |                                             |
+| green_hero1_customname  | green_hero1_name_length                 | str   |                                             |
+| orange player human     | 0x1                                     | bool  |                                             |
+| orange player exists    | 0x1                                     | bool  |                                             |
+| orange player behaviour | 0x1                                     | int   |                                             |
+| orange unknown#1        | map_version == 0x1C                     | bytes |                                             |
+| orange_playable         | 0x1                                     | bool  |                                             |
+| orange unknown#2        | map_version != 0xE                      | bytes |                                             |
+| orange unknown#3        | 0x3                                     | bytes |                                             |
+| orange hero#1           | 0x1 * orange_playable                   | int   | only if hero exists                         |
+| orange_ff               | 0x1                                     | bytes | should be 0xff                              |
+| orange_hero1_name_length| 0x4 * orange_playable                   | int   |                                             |
+| orange_hero1_customname | orange_hero1_name_length                | str   |                                             |
+| purple player human     | 0x1                                     | bool  |                                             |
+| purple player exists    | 0x1                                     | bool  |                                             |
+| purple player behaviour | 0x1                                     | int   |                                             |
+| purple unknown#1        | map_version == 0x1C                     | bytes |                                             |
+| purple_playable         | 0x1                                     | bool  |                                             |
+| purple unknown#2        | map_version != 0xE                      | bytes |                                             |
+| purple unknown#3        | 0x3                                     | bytes |                                             |
+| purple hero#1           | 0x1 * purple_playable                   | int   | only if hero exists                         |
+| purple_ff               | 0x1                                     | bytes | should be 0xff                              |
+| purple_hero1_name_length| 0x4 * purple_playable                   | int   |                                             |
+| purple_hero1_customname | purple_hero1_name_length                | str   |                                             |
+| teal player human       | 0x1                                     | bool  |                                             |
+| teal player exists      | 0x1                                     | bool  |                                             |
+| teal player behaviour   | 0x1                                     | int   |                                             |
+| teal unknown#1          | map_version == 0x1C                     | bytes |                                             |
+| teal_playable           | 0x1                                     | bool  |                                             |
+| teal unknown#2          | map_version != 0xE                      | bytes |                                             |
+| teal unknown#3          | 0x3                                     | bytes |                                             |
+| teal hero#1             | 0x1 * teal_playable                     | int   | only if hero exists                         |
+| teal_ff                 | 0x1                                     | bytes | should be 0xff                              |
+| teal_hero1_name_length  | 0x4 * teal_playable                     | int   |                                             |
+| teal_hero1_customname   | teal_hero1_name_length                  | str   |                                             |
+| pink player human       | 0x1                                     | bool  |                                             |
+| pink player exists      | 0x1                                     | bool  |                                             |
+| pink player behaviour   | 0x1                                     | int   |                                             |
+| pink unknown#1          | map_version == 0x1C                     | bytes |                                             |
+| pink_playable           | 0x1                                     | bool  |                                             |
+| pink unknown#2          | map_version != 0xE                      | bytes |                                             |
+| pink unknown#3          | 0x3                                     | bytes |                                             |
+| pink hero#1             | 0x1 * pink_playable                     | int   | only if hero exists                         |
+| pink_ff                 | 0x1                                     | bytes | should be 0xff                              |
+| pink_hero1_name_length  | 0x4 * pink_playable                     | int   |                                             |
+| post_players_ffff       | 0x2                                     | bytes |                                             |
+| unknown#2               | 0x1                                     | bytes |                                             |
+| 16ff                    | 0x10                                    | bytes |                                             |
+| unknown#3               | 0x23                                    | bytes |                                             |
+| unknown#4               | 0x10                                    | bytes |                                             |
