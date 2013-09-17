@@ -1,0 +1,13 @@
+| contents                | size                                    | type  | description (optional)                      |
+---------------------------------------------------------------------------------------------------------------------------
+| human_playable          | 0x1                                     | bool  |                                             |
+| exists                  | 0x1                                     | bool  |                                             |
+| computer_behaviour      | 0x1                                     | int   |                                             |
+| unknown#1               | map_version == 0x1C                     | bytes |                                             |
+| playable                | 0x1                                     | bool  |                                             |
+| unknown#2               | map_version != 0xE                      | bytes |                                             |
+| unknown#3               | 0x3                                     | bytes |                                             |
+| champion                | 0x1 * playable                          | int   | only if hero exists                         |
+| ff                      | 0x1                                     | bytes | should be 0xff                              |
+| champion_name_length    | 0x4 * playable                          | int   |                                             |
+| champion_customname     | champion_name_length                    | str   |                                             |

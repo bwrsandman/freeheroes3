@@ -1,0 +1,12 @@
+| contents                | size                                    | type  | description (optional)                      |
+---------------------------------------------------------------------------------------------------------------------------
+| map_version             | 0x4                                     | int   | Restoration(14), Armageddon(21), Shadow(28) |
+| map_playable            | 0x1                                     | bool  | Not certain, adding a player turns true     |
+| map_size                | 0x4                                     | int   |                                             |
+| has underground         | 0x1                                     | bool  |                                             |
+| title length            | 0x4                                     | int   |                                             |
+| title                   | title length                            | str   |                                             |
+| description length      | 0x4                                     | int   |                                             |
+| description             | description length                      | str   |                                             |
+| difficulty              | 0x1                                     | int   |                                             |
+| unknown#1               | map_version != 0xE                      | bytes |                                             |

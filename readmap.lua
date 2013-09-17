@@ -1,6 +1,8 @@
 #!/usr/bin/env lua
 require 'zlib'
 
+lfs = love.filesystem
+
 -- trim whitespace from both ends of string
 function string:trim()
     return self:find'^%s*$' and '' or self:match'^%s*(.*%S)'
@@ -56,7 +58,8 @@ function h3m_description.serialize(description)
 end
 
 -- Read the description file
-filename = 'h3m.README'
+header_descr_filename = 'README.h3m.header'
+player_descr_filename = 'README.h3m.player'
 mapdir = "TestMaps"
 
 function string:substitute(map)
@@ -92,48 +95,66 @@ function string:calculate(map)
     else
         ret = map[self]
     end
-    tonumber(ret)
+    ret = tonumber(ret)
     assert(ret ~= nil)
     return ret
 end
 
+function parse(contents, desc, cleared, map_version)
+    local h3m_map = {}
+    h3m_map["map_version"] = map_version
+    for j, v in ipairs(desc) do
+        local k = v.datalabel
+        local z = v.datalen
+        local t = v.datatype
+        if t == "int" or t == "bytes" or t == "bool" then
+            z = tonumber(z) or z:calculate(h3m_map)
+        -- Variable sizes
+        elseif t == "str" or t == "grid" then
+            z = z:calculate(h3m_map) or tonumber(z)
+        end
+        local portion = contents:sub(cleared, cleared + z - 1)
+        if t == "bytes" then
+            h3m_map[k] = string.format("offset: 0x%x, data: %q", cleared - 1, portion)
+        elseif t == "int" then
+            h3m_map[k] = portion:bytes_to_int()
+        elseif t == "bool" then
+            h3m_map[k] = portion:bytes_to_int() ~= 0
+        elseif t == "grid" then
+            h3m_map[k] = "grid"
+        else
+            h3m_map[k] = portion
+        end
+        cleared = cleared + z
+    end
+    return cleared, h3m_map
+end
+
+function h3m_map_print(header)
+    for i, v in pairs(header) do
+        print(i, v) 
+    end
+    print()
+end
+
+function load_map(filename)
+    print("Found map: "..filename)
+    local contents, size = lfs.read(filename)
+    local cleared, h3m_map_header = parse(contents, header_desc, 1)
+    for i, v in pairs({"red", "blue", "tan", "green", "orange", "purple", "teal", "pink"}) do
+        cleared, h3m_map_header[v.."_player"] = parse(contents, player_desc, cleared, h3m_map_header["map_version"])
+    end
+    h3m_map_print(h3m_map_header)
+end
+
 function love.load()
-    local lfs = love.filesystem
-    desc = h3m_description.read(filename)
-    print(h3m_description.serialize(desc))
+    header_desc = h3m_description.read(header_descr_filename)
+    player_desc = h3m_description.read(player_descr_filename)
+    print(h3m_description.serialize(header_desc))
     for i, mapname in ipairs(lfs.enumerate(mapdir)) do
-        filename = mapdir.."/"..mapname
+        local filename = mapdir.."/"..mapname
         if lfs.isFile(filename) and not mapname:find('[.]gz$') then
-            print("Found map: "..filename)
-            contents, size = lfs.read(filename)
-            cleared = 1
-            h3m_map = {}
-            for j, v in ipairs(desc) do
-                k = v.datalabel
-                z = v.datalen
-                t = v.datatype
-                if t == "int" or t == "bytes" or t == "bool" then
-                    z = tonumber(z) or z:calculate(h3m_map)
-                -- Variable sizes
-                elseif t == "str" or t == "grid" then
-                    z = z:calculate(h3m_map) or tonumber(z)
-                end
-                portion = contents:sub(cleared, cleared + z - 1)
-                if t == "bytes" then
-                    h3m_map[k] = string.format("offset: 0x%x, data: %q", cleared - 1, portion)
-                elseif t == "int" then
-                    h3m_map[k] = portion:bytes_to_int()
-                elseif t == "bool" then
-                    h3m_map[k] = portion:bytes_to_int() ~= 0
-                elseif t == "grid" then
-                    h3m_map[k] = "grid"
-                else
-                    h3m_map[k] = portion
-                end
-                cleared = cleared + z
-                print(j, k, h3m_map[k])
-            end
-            print()
+            load_map(filename)
         end
     end
 end
