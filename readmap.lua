@@ -24,9 +24,9 @@ function string:bytes_to_int()
     return n
 end
 
-
 h3m_description = {}
 h3m_file = {}
+player_colors = {"red", "blue", "tan", "green", "orange", "purple", "teal", "pink"}
 
 function h3m_description.read(filename)
     description = {}
@@ -134,17 +134,25 @@ function h3m_map_print(header)
     for i, v in pairs(header) do
         print(i, v) 
     end
-    print()
 end
 
 function load_map(filename)
     print("Found map: "..filename)
+    print("==========="..string.rep("=",filename:len()))
+    print()
     local contents, size = lfs.read(filename)
     local cleared, h3m_map_header = parse(contents, header_desc, 1)
-    for i, v in pairs({"red", "blue", "tan", "green", "orange", "purple", "teal", "pink"}) do
-        cleared, h3m_map_header[v.."_player"] = parse(contents, player_desc, cleared, h3m_map_header["map_version"])
+    local h3m_map_players = {}
+    for i, v in pairs(player_colors) do
+        cleared, h3m_map_players[i] = parse(contents, player_desc, cleared, h3m_map_header["map_version"])
     end
     h3m_map_print(h3m_map_header)
+    print()
+    print("Players:")
+    print("--------")
+    h3m_map_print(h3m_map_players)
+    print()
+    print()
 end
 
 function love.load()
