@@ -1,0 +1,3 @@
+| contents                  | size     | type  | description (optional)   |
+---------------------------------------------------------------------------
+| unknown_next 0x100 bytes  | 0x100    | bytes | What's next?             |
