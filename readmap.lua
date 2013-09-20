@@ -137,20 +137,23 @@ function h3m_map_print(header)
 end
 
 function load_map(filename)
+    local contents, size = lfs.read(filename)
+    local cleared, h3m_map = parse(contents, header_desc, 1)
+    h3m_map.players = {}
+    for i, v in pairs(player_colors) do
+        cleared, h3m_map.players[i] = parse(contents, player_desc, cleared, h3m_map.map_version)
+        h3m_map.players[i].player_color = player_colors[i]
+    end
     print("Found map: "..filename)
     print("==========="..string.rep("=",filename:len()))
     print()
-    local contents, size = lfs.read(filename)
-    local cleared, h3m_map_header = parse(contents, header_desc, 1)
-    local h3m_map_players = {}
-    for i, v in pairs(player_colors) do
-        cleared, h3m_map_players[i] = parse(contents, player_desc, cleared, h3m_map_header["map_version"])
-    end
-    h3m_map_print(h3m_map_header)
+    h3m_map_print(h3m_map)
     print()
     print("Players:")
     print("--------")
-    h3m_map_print(h3m_map_players)
+    h3m_map_print(h3m_map.players)
+    print()
+    print(string.format("Stopped parsing at offset: 0x%x",cleared-1))
     print()
     print()
 end
