@@ -60,6 +60,7 @@ end
 -- Read the description file
 header_descr_filename = 'README.h3m.header'
 player_descr_filename = 'README.h3m.player'
+victory_descr_filename = 'README.h3m.victory'
 next_descr_filename = 'README.h3m.next'
 mapdir = "TestMaps"
 
@@ -71,7 +72,6 @@ function string:substitute(map)
     elseif type(ret) == "boolean" then
         ret = ret and 1 or 0
     end
-    ret = tonumber(ret)
     assert(ret ~= nil)
     return ret
 end
@@ -79,7 +79,17 @@ end
 function string:calculate(map)
     local ret = nil
     local eq = nil
-    if self:match("!=") then
+    -- Contains multiplier, perform calculation
+    if self:match("%*") then
+        ret = 1
+        for i, x in pairs(self:split("*")) do
+            local sub = x:substitute(map)
+            if not tonumber(sub) then
+                sub = sub:calculate(map)
+            end
+            ret = ret * sub
+        end
+    elseif self:match("!=") then
         eq = self:split("!=")
         assert(#eq == 2)
         ret = (eq[1]:substitute(map) ~= eq[2]:substitute(map)) and 1 or 0
@@ -87,14 +97,8 @@ function string:calculate(map)
         eq = self:split("==")
         assert(#eq == 2)
         ret = (eq[1]:substitute(map) == eq[2]:substitute(map)) and 1 or 0
-    -- Contains multiplier, perform calculation
-    elseif self:match("%*") then
-        ret = 1
-        for i, x in pairs(self:split("*")) do
-            ret = x:substitute(map) * ret
-        end
     else
-        ret = map[self]
+        ret = map[self] or self
     end
     ret = tonumber(ret)
     assert(ret ~= nil)
@@ -133,7 +137,7 @@ end
 
 function h3m_map_print(header)
     for i, v in pairs(header) do
-        print(i, v) 
+        print(i, v)
     end
 end
 
@@ -145,6 +149,7 @@ function load_map(filename)
         cleared, h3m_map.players[i] = parse(contents, player_desc, cleared, h3m_map.map_version)
         h3m_map.players[i].player_color = player_colors[i]
     end
+    cleared, h3m_map.victory = parse(contents, victory_desc, cleared, h3m_map.map_version)
     cleared, h3m_map.next = parse(contents, next_desc, cleared, h3m_map.map_version)
     print("Found map: "..filename)
     print("==========="..string.rep("=",filename:len()))
@@ -154,6 +159,8 @@ function load_map(filename)
     print("Players:")
     print("--------")
     h3m_map_print(h3m_map.players)
+    print()
+    h3m_map_print(h3m_map.victory)
     print()
     h3m_map_print(h3m_map.next)
     print()
@@ -165,6 +172,7 @@ end
 function love.load()
     header_desc = h3m_description.read(header_descr_filename)
     player_desc = h3m_description.read(player_descr_filename)
+    victory_desc = h3m_description.read(victory_descr_filename)
     next_desc = h3m_description.read(next_descr_filename)
     print(h3m_description.serialize(header_desc))
     for i, mapname in ipairs(lfs.enumerate(mapdir)) do
