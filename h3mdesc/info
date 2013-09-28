@@ -1,5 +1,5 @@
 | contents                | size                | type  | description (optional)                      |
--------------------------------------------------------------------------------------------------------
+|-------------------------|---------------------|-------|---------------------------------------------|
 | map_version             | 0x4                 | int   | Restoration(14), Armageddon(21), Shadow(28) |
 | map_playable            | 0x1                 | bool  |                                             |
 | map_size                | 0x4                 | int   | Maps are square, this is one side.          |

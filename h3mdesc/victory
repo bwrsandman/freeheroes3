@@ -1,5 +1,5 @@
 | contents           | size                       | type  | description (optional)                |
----------------------------------------------------------------------------------------------------
+|--------------------|----------------------------|-------|---------------------------------------|
 | victory_starts     | 0x0                        | bytes |                                       |
 | victory_type       | 0x1                        | int   | 0xff when none                        |
 | also allow normal  | victory_type != 0xff       | bool  | 1 when also allow normal victory      |

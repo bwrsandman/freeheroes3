@@ -1,5 +1,5 @@
 | contents                  | size     | type  | description (optional)                         |
--------------------------------------------------------------------------------------------------
+|---------------------------|----------|-------|------------------------------------------------|
 | next_starts               | 0x0      | bytes |                                                |
 | unknown_0xff              | 0x1      | bytes | 0xff for simple maps                           |
 | unknown_0x00              | 0x1      | bytes | 0x00 for simple maps                           |
