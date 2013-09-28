@@ -3,8 +3,8 @@ require 'stringutils'
 h3mdesc = {}
 h3mdesc.__index = h3mdesc
 
-desc_prefix = "README.h3m."
-desc_filenames = {"header", "player", "victory", "next"}
+desc_prefix = "h3mdesc/"
+desc_filenames = {"info", "player", "victory", "next"}
 
 function h3mdesc.getdescs()
     local descs = {}
@@ -32,6 +32,7 @@ function h3mdesc.read(filename)
         end
         i = i + 1
     end
+    file:close()
     return self
 end
 

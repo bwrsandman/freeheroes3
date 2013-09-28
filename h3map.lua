@@ -11,7 +11,7 @@ function h3map.load(content)
     local self = setmetatable({}, h3map)
     self.cleared = 1
     self.content = content
-    self:parse("info", descs["header"])
+    self:parse("info", descs["info"])
     for i, v in pairs(player_colors) do
         local player_color = "player_" .. v
         self:parse(player_color, descs["player"])
