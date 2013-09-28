@@ -24,7 +24,7 @@ function string:substitute(map)
     local s = self:trim()
     local ret = map[s]
     if ret == nil then
-        ret = s
+        ret = tonumber(s) or s
     elseif type(ret) == "boolean" then
         ret = ret and 1 or 0
     end
