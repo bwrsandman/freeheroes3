@@ -1,6 +1,6 @@
 | contents                | size                   | type  | description (optional)         |
 ---------------------------------------------------------------------------------------------
-| player_start*******     | 0x0                    | bytes | offset of where the player is  |
+| player_start            | 0x0                    | bytes | offset of where the player is  |
 | human_playable          | 0x1                    | bool  | minimum index: 0x13            |
 | exists                  | 0x1                    | bool  |                                |
 | computer_behaviour      | 0x1                    | int   |                                |
