@@ -1,10 +1,15 @@
 #!/usr/bin/env lua
-require 'h3mdesc'
+require 'conf'
+
+love = {}
+c = {}
+
+h3mdesc_conf(c)
 
 out = "# H3M file format\n\n"
 
-for i, v in ipairs(desc_filenames) do
-    local file = assert(io.open(desc_prefix .. v, "r"))
+for i, v in ipairs(c.filenames) do
+    local file = assert(io.open(c.prefix .. v, "r"))
     out = (
         out ..
         "## " .. v:gsub("^%l", string.upper) .. "\n" ..

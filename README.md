@@ -26,9 +26,7 @@
 | unknown_shadow          | map_version != 0xE     | bytes | Shadow of death only           |
 | unknown#2               | 0x1                    | bytes |                                |
 | has_main_town           | 0x1                    | bool  |                                |
-| main_at_x               | 0x1 * has_main_town    | int   |                                |
-| main_at_y               | 0x1 * has_main_town    | int   |                                |
-| main_at_z               | 0x1 * has_main_town    | int   | underworld or not              |
+| main                    | 0x3 * has_main_town    | coord | Coordinate of main town.       |
 | unknown#3               | 0x1                    | bytes |                                |
 | champion                | 0x1                    | int   | Is 0xff if there are no heroes |
 | champion_exists         | champion != 0xff       | bool  | Exists if champion isn't 0xff  |
@@ -42,15 +40,23 @@
 | victory_type       | 0x1                        | int   | 0xff when none                        |
 | also allow normal  | victory_type != 0xff       | bool  | 1 when also allow normal victory      |
 | applies to pc too  | victory_type != 0xff       | bool  | victory condition also applies to PC  |
-| type_needed        | victory_type != 0xff       | int   | ID#artefacts,units                    |
-| count_needed       | 0x4 * victory_type != 0xff | int   | #artefacts,units                      |
+| item_to_aquire     | 0x1 * victory_type == 0x0  | int   | Item referece, if artefact victory    |
+| creatures_type     | 0x1 * victory_type == 0x1  | int   | Type of creature, if resouce victory  |
+| creatures_needed   | 0x4 * victory_type == 0x1  | int   | Num of creatures, if creature victory |
+| resources_type     | 0x1 * victory_type == 0x2  | int   | Type of resource, if resource victory |
+| resources_needed   | 0x4 * victory_type == 0x2  | int   | Num of resources, if resource victory |
+| town_to_upgrade    | 0x3 * victory_type == 0x3  | coord | Coordonates of the town to upgrade    |
+| hall_upgrade       | 0x1 * victory_type == 0x3  | int   | Hall level for, if upgrade victory    |
+| castle_upgrade     | 0x1 * victory_type == 0x3  | int   | Castle level for, if upgrade victory  |
+| town_to_grail      | 0x3 * victory_type == 0x4  | coord | Coordonate of the town to grail       |
+| hero_to_defeat     | 0x3 * victory_type == 0x5  | coord | Coordonate of the hero to defeat      |
+| town_to_capture    | 0x3 * victory_type == 0x6  | coord | Coordonate of the town to capture     |
+| moster_to_defeat   | 0x3 * victory_type == 0x7  | coord | Coordonate of monsters to defeat      |
+| item_to_transport  | 0x1 * victory_type == 0xA  | int   | Item referece, if transport victory   |
+| item_destination   | 0x3 * victory_type == 0xA  | coord | Coordonate to transport item to       |
 
 ## Next
 | contents                  | size     | type  | description (optional)                         |
 |---------------------------|----------|-------|------------------------------------------------|
-| next_starts               | 0x0      | bytes |                                                |
-| unknown_0xff              | 0x1      | bytes | 0xff for simple maps                           |
-| unknown_0x00              | 0x1      | bytes | 0x00 for simple maps                           |
-| unknown_0xffs             | 0x9      | bytes | Multiple 0xffs for simple maps                 |
-| unknown_next 0x100 bytes  | 0x100    | bytes | What's next?                                   |
+| unknown_next 0x18 bytes   | 0x13     | bytes | What's next?                                   |
 
