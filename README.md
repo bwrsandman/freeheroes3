@@ -55,8 +55,3 @@
 | item_to_transport  | 0x1 * victory_type == 0xA  | int   | Item referece, if transport victory   |
 | item_destination   | 0x3 * victory_type == 0xA  | coord | Coordonate to transport item to       |
 
-## Next
-| contents                  | size     | type  | description (optional)                         |
-|---------------------------|----------|-------|------------------------------------------------|
-| unknown_next 0x18 bytes   | 0x13     | bytes | What's next?                                   |
-
