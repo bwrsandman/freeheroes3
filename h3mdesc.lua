@@ -1,15 +1,20 @@
 require 'stringutils'
+require 'conf'
 
 h3mdesc = {}
 h3mdesc.__index = h3mdesc
 
-desc_prefix = "h3mdesc/"
-desc_filenames = {"info", "player", "victory", "next"}
-
 function h3mdesc.getdescs()
+    local c = {
+        printdescs = true,
+        prefix = nil,
+        filenames = {}
+    }
+    h3mdesc_conf(c)
     local descs = {}
-    for i, v in ipairs(desc_filenames) do
-        descs[v] = h3mdesc.read(desc_prefix .. v)
+    for i, v in ipairs(c.filenames) do
+        descs[v] = h3mdesc.read(c.prefix .. v)
+        if c.prindescs then print(descs[v]:serialize()) end
     end
     return descs
 end

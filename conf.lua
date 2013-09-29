@@ -1,3 +1,4 @@
+local love = love or {}
 function love.conf(t)
     t.title = "Freeheroes3"     -- The title of the window the game is in (string)
     t.author = "Sandy Carter"   -- The author of the game (string)
@@ -27,7 +28,18 @@ end
 function h3map_conf(t)
     t.print.info = false
     t.print.players = false
-    t.print.victory = false
+    t.print.victory = true
     t.print.next = true
     t.print.offset = true
+end
+
+function h3mdesc_conf(t)
+    t.printdescs = false
+    t.prefix = "h3mdesc/"
+    t.filenames = {
+        "info",
+        "player",
+        "victory",
+        "next",
+    }
 end
