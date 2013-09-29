@@ -23,3 +23,11 @@ function love.conf(t)
     t.modules.sound = true      -- Enable the sound module (boolean)
     t.modules.physics = false   -- Enable the physics module (boolean)
 end
+
+function h3map_conf(t)
+    t.print.info = false
+    t.print.players = false
+    t.print.victory = false
+    t.print.next = true
+    t.print.offset = true
+end

@@ -1,5 +1,6 @@
 require 'h3mdesc'
 require 'stringutils'
+require 'conf'
 
 local player_colors = {"red", "blue", "tan", "green", "orange", "purple", "teal", "pink"}
 local descs = descs or h3mdesc.getdescs()
@@ -56,16 +57,27 @@ function h3map:parse(index, desc)
 end
 
 function h3map:serialize()
+    local c = {
+        print = {
+            info = true,
+            players = true,
+            victory = true,
+            next = true,
+            offset = true,
+        }
+    }
+    h3map_conf(c)
     return (
-        self:header_serialize("info") ..
-        "\n" ..
-        self:players_serialize() ..
-        self:header_serialize("victory") ..
-        "\n" ..
-        self:header_serialize("next") ..
-        "\n" ..
-        string.format("Stopped parsing at offset: 0x%x", self.cleared - 1) ..
-        "\n\n"
+        (c.print.info and (self:header_serialize("info") ..
+            "\n") or "") ..
+        (c.print.players and self:players_serialize() or "") ..
+        (c.print.victory and (self:header_serialize("victory") ..
+            "\n") or "") ..
+        (c.print.next and (self:header_serialize("next") ..
+            "\n") or "") ..
+        (c.print.offset and (string.format("Stopped parsing at offset: 0x%x", self.cleared - 1) ..
+        "\n") or "") ..
+        "\n"
     )
 end
 
