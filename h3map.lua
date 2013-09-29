@@ -1,6 +1,7 @@
 require 'h3mdesc'
 require 'stringutils'
 require 'conf'
+require 'coord'
 
 local player_colors = {"red", "blue", "tan", "green", "orange", "purple", "teal", "pink"}
 local descs = h3mdesc.getdescs()
@@ -30,12 +31,7 @@ function h3map:parse(index, desc)
         local k = v.datalabel
         local z = v.datalen
         local t = v.datatype
-        if t == "int" or t == "bytes" or t == "bool" then
-            z = tonumber(z) or z:calculate(h3m_map)
-        -- Variable sizes
-        elseif t == "str" or t == "grid" then
-            z = z:calculate(h3m_map) or tonumber(z)
-        end
+        z = tonumber(z) or z:calculate(h3m_map)
         local portion = self.content:sub(self.cleared, self.cleared + z - 1)
         if t == "bytes" then
             h3m_map[k] = string.format("offset: 0x%x, data: %q", self.cleared - 1, portion)
@@ -43,6 +39,8 @@ function h3map:parse(index, desc)
             h3m_map[k] = portion:bytes_to_int()
         elseif t == "bool" then
             h3m_map[k] = portion:bytes_to_int() ~= 0
+        elseif t == "coord" then
+            h3m_map[k] = portion:bytes_to_coord()
         elseif t == "grid" then
             h3m_map[k] = "grid"
         else
