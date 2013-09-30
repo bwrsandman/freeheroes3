@@ -60,6 +60,16 @@ function h3map:serialize()
         print = {
             info = true,
             players = true,
+            player = {
+                red = true,
+                blue = true,
+                tan = true,
+                green = true,
+                orange = true,
+                purple = true,
+                teal = true,
+                pink = true,
+            },
             victory = true,
             next = true,
             offset = true,
@@ -69,7 +79,7 @@ function h3map:serialize()
     return (
         (c.print.info and ("Info\n----\n" .. self:header_serialize("info") ..
             "\n") or "") ..
-        (c.print.players and self:players_serialize() or "") ..
+        (c.print.players and self:players_serialize(c) or "") ..
         (c.print.victory and ("Victory\n-------\n" .. self:header_serialize("victory") ..
             "\n") or "") ..
         (c.print.teams and ("Teams\n-----\n" .. self:header_serialize("teams") ..
@@ -82,11 +92,13 @@ function h3map:serialize()
     )
 end
 
-function h3map:players_serialize()
+function h3map:players_serialize(c)
     local ret = ""
     for i, v in pairs(player_colors) do
-        local player_color = "player_" .. v
-        ret = ret .. v .. " player:\n" .. self:header_serialize(player_color) .. "\n"
+        if c.print.player[v] then
+            local player_color = "player_" .. v
+            ret = ret .. v .. " player:\n" .. self:header_serialize(player_color) .. "\n"
+        end
     end
     return (
         "Players:\n" ..

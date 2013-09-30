@@ -28,6 +28,14 @@ end
 function h3map_conf(t)
     t.print.info = false
     t.print.players = false
+    t.print.player.red = true
+    t.print.player.blue = true
+    t.print.player.tan = false
+    t.print.player.green = false
+    t.print.player.orange = false
+    t.print.player.purple = false
+    t.print.player.teal = false
+    t.print.player.pink = false
     t.print.victory = false
     t.print.teams = true
     t.print.next = true
