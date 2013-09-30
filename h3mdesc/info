@@ -9,4 +9,4 @@
 | description length      | 0x4                 | int   |                                             |
 | description             | description length  | str   |                                             |
 | difficulty              | 0x1                 | int   |                                             |
-| unknown#1               | map_version != 0xE  | bytes | Shadow of death only                        |
+| level_cap               | map_version != 0xE  | int   | Armageddon and Shadow of death only         |
