@@ -1,3 +1,4 @@
 | contents                  | size     | type  | description (optional)                         |
 |---------------------------|----------|-------|------------------------------------------------|
+| unknown_eight_players     | 0x1      | bytes | With eight players, values becomes 22          |
 | unknown_next 0x18 bytes   | 0x13     | bytes | What's next?                                   |

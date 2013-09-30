@@ -28,9 +28,10 @@ end
 function h3map_conf(t)
     t.print.info = false
     t.print.players = false
-    t.print.victory = true
+    t.print.victory = false
+    t.print.teams = true
     t.print.next = true
-    t.print.offset = true
+    t.print.offset = false
 end
 
 function h3mdesc_conf(t)
@@ -40,6 +41,7 @@ function h3mdesc_conf(t)
         "info",
         "player",
         "victory",
+        "teams",
         "next",
     }
 end

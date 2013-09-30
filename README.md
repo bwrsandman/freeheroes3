@@ -59,3 +59,16 @@
 | defeat_town_lost   | 0x3 * defeat_type == 0x1   | coord | Lose if this town is captured         |
 | defeat_time_days   | 0x2 * defeat_type == 0x2   | int   | Lose after this many days             |
 
+## Teams
+| contents                  | size                         | type  | description (optional)                         |
+|---------------------------|------------------------------|-------|------------------------------------------------|
+| number_of_teams           | 0x1                          | int   | Number of teams on the map (< #players)        |
+| red_in_team_number        | number_of_teams != 0x0       | int   |                                                |
+| blue_in_team_number       | number_of_teams != 0x0       | int   |                                                |
+| tan_in_team_number        | number_of_teams != 0x0       | int   |                                                |
+| green_in_team_number      | number_of_teams != 0x0       | int   |                                                |
+| orange_in_team_number     | number_of_teams != 0x0       | int   |                                                |
+| purple_in_team_number     | number_of_teams != 0x0       | int   |                                                |
+| teal_in_team_number       | number_of_teams != 0x0       | int   |                                                |
+| pink_in_team_number       | number_of_teams != 0x0       | int   |                                                |
+

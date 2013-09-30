@@ -20,6 +20,7 @@ function h3map.load(content)
         self[player_color].player_color = v
     end
     self:parse("victory", descs["victory"])
+    self:parse("teams", descs["teams"])
     self:parse("next", descs["next"])
     return self
 end
@@ -70,6 +71,8 @@ function h3map:serialize()
             "\n") or "") ..
         (c.print.players and self:players_serialize() or "") ..
         (c.print.victory and ("Victory\n-------\n" .. self:header_serialize("victory") ..
+            "\n") or "") ..
+        (c.print.teams and ("Teams\n-----\n" .. self:header_serialize("teams") ..
             "\n") or "") ..
         (c.print.next and ("Next\n----\n" .. self:header_serialize("next") ..
             "\n") or "") ..
