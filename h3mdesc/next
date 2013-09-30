@@ -1,4 +1,8 @@
 | contents                  | size     | type  | description (optional)                         |
 |---------------------------|----------|-------|------------------------------------------------|
-| unknown_eight_players     | 0x1      | bytes | With eight players, values becomes 22          |
-| unknown_next 0x18 bytes   | 0x13     | bytes | What's next?                                   |
+| unknown_1                 | 0x1      | int   | With eight players, value becomes 22           |
+| unknown_2                 | 0x1      | int   |                                                |
+| unknown_3                 | 0x2      | bytes | "Myth and legend" map                          |
+| unknown_4                 | 0x3      | bytes |                                                |
+| unknown_5                 | 0x1      | int   | "Race for Ardintinny" map                      |
+| unknown_next              | 0xA      | bytes | What's next?                                   |
