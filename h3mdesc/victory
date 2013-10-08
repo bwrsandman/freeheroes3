@@ -18,6 +18,7 @@
 | moster_to_defeat   | 0x3 * victory_type == 0x7  | coord | Coordonate of monsters to defeat      |
 | item_to_transport  | 0x1 * victory_type == 0xA  | int   | Item referece, if transport victory   |
 | item_destination   | 0x3 * victory_type == 0xA  | coord | Coordonate to transport item to       |
+| unknown#1          | 0x1 * map_version != 0xE   | int   | 0xff when none                        |
 | defeat_type        | 0x1                        | int   | 0xff when none                        |
 | defeat_hero_dies   | 0x3 * defeat_type == 0x0   | coord | Lose if this hero dies                |
 | defeat_town_lost   | 0x3 * defeat_type == 0x1   | coord | Lose if this town is captured         |
