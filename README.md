@@ -12,26 +12,34 @@
 | description length      | 0x4                 | int   |                                             |
 | description             | description length  | str   |                                             |
 | difficulty              | 0x1                 | int   |                                             |
-| unknown#1               | map_version != 0xE  | bytes | Shadow of death only                        |
+| level_cap               | map_version != 0xE  | int   | Armageddon and Shadow of death only         |
 
 ## Player
-| contents                | size                   | type  | description (optional)         |
-|-------------------------|------------------------|-------|--------------------------------|
-| player_start            | 0x0                    | bytes | offset of where the player is  |
-| human_playable          | 0x1                    | bool  | minimum index: 0x13            |
-| exists                  | 0x1                    | bool  |                                |
-| computer_behaviour      | 0x1                    | int   |                                |
-| unknown_arma_shadow     | map_version == 0x1C    | bytes | Armageddon and Shadow only     |
-| unknown#1               | 0x1                    | bytes | related to exists              |
-| unknown_shadow          | map_version != 0xE     | bytes | Shadow of death only           |
-| unknown#2               | 0x1                    | bytes |                                |
-| has_main_town           | 0x1                    | bool  |                                |
-| main                    | 0x3 * has_main_town    | coord | Coordinate of main town.       |
-| unknown#3               | 0x1                    | bytes |                                |
-| champion                | 0x1                    | int   | Is 0xff if there are no heroes |
-| champion_exists         | champion != 0xff       | bool  | Exists if champion isn't 0xff  |
-| champ_name_length       | 0x4 * champion_exists  | int   |                                |
-| champ_customname        | champ_name_length      | str   |                                |
+| contents            | size                                                  | type  | description (optional)         |
+|---------------------|-------------------------------------------------------|-------|--------------------------------|
+| player_start        | 0x0                                                   | bytes | offset of where the player is  |
+| human_playable      | 0x1                                                   | bool  |                                |
+| exists              | 0x1                                                   | bool  |                                |
+| computer_behaviour  | 0x1                                                   | bytes |                                |
+| unknown_shadow      | 0x1 * map_version == 0x1C                             | bytes | Shadow only                    |
+| race_bits           | 0x1                                                   | int   | random hero if 255             |
+| unknown#2           | 0x1 * map_version != 0xE                              | bytes |                                |
+| unknown#3           | 0x1                                                   | bytes | 0xA0 on non-existant players   |
+| has_main_town       | 0x1                                                   | bool  |                                |
+| generate_hero       | 0x1 * map_version != 0xE * has_main_town * exists     | bytes | Arma and  Shadow of death only |
+| main_town_type      | 0x1 * map_version != 0xE * has_main_town * exists     | int   |                                |
+| main_town           | 0x3 * has_main_town                                   | coord | Coordinate of main town.       |
+| unknown#4           | 0x1                                                   | bytes |                                |
+| champion            | 0x1                                                   | int   | Is 0xff if there are no heroes |
+| champion_exists     | 0x1 * champion != 0xFF * race_bits != 0xFF            | bool  | Exists if champion isn't 0xff  |
+| champ_name_length   | 0x4 * champion_exists * race_bits != 0xFF             | int   |                                |
+| champ_customname    | 0x1 * champ_name_length                               | str   |                                |
+| champ_sha           | 0x1 * map_version != 0xE * exists                     | int   |                                |
+| champ_exists_sha    | 0x1 * map_version != 0xE * champ_sha != 0xFF          | bool  |                                |
+| unknown#5           | 0x4 * map_version != 0xE * race_bits != 0xFF * exists | bytes |                                |
+| champ_arma_sha_len  | 0x4 * map_version != 0xE * race_bits != 0xFF          | int   |                                |
+| champ_arma_sha_name | 0x1 * champ_arma_sha_len * champ_sha != 0xFF          | str   |                                |
+| player_end          | 0x0                                                   | bytes | offset of where the player is  |
 
 ## Victory
 | contents           | size                       | type  | description (optional)                |
@@ -54,6 +62,7 @@
 | moster_to_defeat   | 0x3 * victory_type == 0x7  | coord | Coordonate of monsters to defeat      |
 | item_to_transport  | 0x1 * victory_type == 0xA  | int   | Item referece, if transport victory   |
 | item_destination   | 0x3 * victory_type == 0xA  | coord | Coordonate to transport item to       |
+| unknown#1          | 0x1 * map_version != 0xE   | int   | 0xff when none                        |
 | defeat_type        | 0x1                        | int   | 0xff when none                        |
 | defeat_hero_dies   | 0x3 * defeat_type == 0x0   | coord | Lose if this hero dies                |
 | defeat_town_lost   | 0x3 * defeat_type == 0x1   | coord | Lose if this town is captured         |

@@ -33,6 +33,12 @@ function h3map:parse(index, desc)
         local z = v.datalen
         local t = v.datatype
         z = tonumber(z) or z:calculate(h3m_map)
+        if t == "str" or t == "bytes" then
+            if(z >= 30000) then 
+                z = 0
+                print("Data length for "..k.." exceeds 30000.")
+            end
+        end
         local portion = self.content:sub(self.cleared, self.cleared + z - 1)
         if t == "bytes" then
             h3m_map[k] = string.format("offset: 0x%x, data: %q", self.cleared - 1, portion)
