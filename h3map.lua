@@ -41,23 +41,23 @@ function h3map:parse(index, desc)
         end
         local portion = self.content:sub(self.cleared, self.cleared + z - 1)
         if t == "bytes" then
-            h3m_map[k] = string.format("offset: 0x%x, data: %q", self.cleared - 1, portion)
+            portion = string.format("offset: 0x%X, data: %q", self.cleared - 1, portion)
         elseif t == "int" then
-            h3m_map[k] = portion:bytes_to_int()
+            portion = portion:bytes_to_int()
         elseif t == "bool" then
-            h3m_map[k] = portion:bytes_to_int() ~= 0
+            portion = portion:bytes_to_int() ~= 0
         elseif t == "coord" then
-            h3m_map[k] = portion:bytes_to_coord()
+            portion = portion:bytes_to_coord()
         elseif t == "grid" then
-            h3m_map[k] = "grid"
-        else
-            h3m_map[k] = portion
+            portion = "grid"
         end
+        h3m_map[k] = portion
         self.cleared = self.cleared + z
     end
     if index ~= "info" then
         h3m_map.map_version = nil
     end
+    h3m_map.desc = desc
     self[index] = h3m_map
 end
 
@@ -92,7 +92,7 @@ function h3map:serialize()
             "\n") or "") ..
         (c.print.next and ("Next\n----\n" .. self:header_serialize("next") ..
             "\n") or "") ..
-        (c.print.offset and (string.format("Stopped parsing at offset: 0x%x", self.cleared - 1) ..
+        (c.print.offset and (string.format("Stopped parsing at offset: 0x%X", self.cleared - 1) ..
         "\n") or "") ..
         "\n"
     )
@@ -115,8 +115,9 @@ end
 
 function h3map:header_serialize(index)
     local ret = ""
-    for i, v in pairs(self[index]) do
-        ret = ret .. tostring(i) .. "\t" .. tostring(v) .. "\n"
+    for i, v in ipairs(self[index].desc) do
+        label = v.datalabel
+        ret = ret .. tostring(label) .. "\t" .. tostring(self[index][label]) .. "\n"
     end
     return ret
 end

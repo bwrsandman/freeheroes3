@@ -14,7 +14,7 @@ function h3mdesc.getdescs()
     local descs = {}
     for i, v in ipairs(c.filenames) do
         descs[v] = h3mdesc.read(c.prefix .. v)
-        if c.printdescs then print(descs[v]) end
+        if c.printdescs then print(descs[v]:serialize()) end
     end
     return descs
 end
@@ -43,10 +43,12 @@ end
 
 function h3mdesc:serialize()
     local ret = ""
-    for i, v in ipairs(self) do
+    if self then
+        for i, v in ipairs(self) do
             ret = ret..v.datalabel..": "..v.datalen..", "..v.datatype.."\n"
+        end
     end
     return ret
 end
 
-h3mdesc.__tostring = h3mdesc:serialize()
+h3mdesc.__tostring = h3mdesc.serialize()
