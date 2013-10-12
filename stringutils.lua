@@ -1,4 +1,5 @@
 require 'coord'
+require 'champ'
 
 -- General string functions
 function string:trim()
@@ -29,6 +30,15 @@ function string:bytes_to_coord()
     local y = self:sub(2, 2):bytes_to_int()
     local u = self:sub(3, 3):bytes_to_int() ~= 0
     return coord.new(x, y, u)
+end
+
+function string:bytes_to_champ()
+    if self:len() < 5 then return nil end
+    local id = self:sub(1, 1):bytes_to_int()
+    local str_len = self:sub(2, 5):bytes_to_int()
+    if self:len() < 5 + str_len then return 0, nil end
+    local name = self:sub(6, 5 + str_len)
+    return 5 + str_len, champ.new(id, name)
 end
 
 function string:substitute(map)

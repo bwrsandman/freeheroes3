@@ -50,6 +50,16 @@ function h3map:parse(index, desc)
             portion = portion:bytes_to_coord()
         elseif t == "grid" then
             portion = "grid"
+	elseif t == "champ" then
+            local list = {}
+	    for i = 1, z do
+                portion = self.content:sub(self.cleared)
+                local champ_cleared, champ_ret = portion:bytes_to_champ()
+                list[i] = champ_ret
+                self.cleared = self.cleared + champ_cleared
+            end
+	    z = 0
+	    portion = list
         end
         h3m_map[k] = portion
         self.cleared = self.cleared + z

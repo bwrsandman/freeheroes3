@@ -18,9 +18,7 @@
 | champ_name_length   | 0x4 * champion_exists * race_bits != 0xFF             | int   |                                |
 | champ_customname    | 0x1 * champ_name_length                               | str   |                                |
 | champ_sha           | 0x1 * map_version != 0xE * exists                     | int   |                                |
-| champ_exists_sha    | 0x1 * champ_sha != 0xFF * map_version != 0xE          | bool  |                                |
+| champ_count_arma_sha| 0x1 * champ_sha != 0xFF * map_version != 0xE          | int   |                                |
 | unknown_arma_sha#2  | 0x3 * map_version != 0xE                              | bytes |                                |
-| unknown_arma_sha#3  | 0x1 * race_bits != 0xFF * champ_exists_sha            | bytes |                                |
-| champ_arma_sha_len  | 0x4 * race_bits != 0xFF * champ_exists_sha            | int   |                                |
-| champ_arma_sha_name | 0x1 * champ_arma_sha_len * champ_sha != 0xFF          | str   |                                |
+| champ_name_list     | champ_count_arma_sha                                  | champ | Champion namelist (id, string) |
 | player_end          | 0x0                                                   | bytes |                                |

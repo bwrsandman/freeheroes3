@@ -1,0 +1,5 @@
+| contents            | size                     | type  | description (optional)    |
+|---------------------|--------------------------|-------|---------------------------|
+| champ_arma_sha      | 0x1                      | int   | id number of champ        |
+| champ_arma_sha_len  | 0x4 * champ_exists_sha   | int   |                           |
+| champ_arma_sha_name | 0x1 * champ_arma_sha_len | str   |                           |
