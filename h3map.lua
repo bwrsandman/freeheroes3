@@ -126,8 +126,18 @@ end
 function h3map:header_serialize(index)
     local ret = ""
     for i, v in ipairs(self[index].desc) do
-        label = v.datalabel
-        ret = ret .. tostring(label) .. "\t" .. tostring(self[index][label]) .. "\n"
+        local label = v.datalabel
+	local out = self[index][label]
+	ret = ret..tostring(label).."\t"
+	if type(out) == "table" then
+            ret = ret.."["
+            for j, w in ipairs(out) do
+                ret = ret..tostring(j).."\t"..tostring(w).."\n"
+            end
+	    ret = ret.."]\n"
+        else
+            ret = ret..tostring(out).."\n"
+        end
     end
     return ret
 end
