@@ -1,8 +1,15 @@
-| contents                  | size     | type  | description (optional)                         |
-|---------------------------|----------|-------|------------------------------------------------|
-| unknown_1                 | 0x1      | int   | With eight players, value becomes 22           |
-| unknown_2                 | 0x1      | int   |                                                |
-| unknown_3                 | 0x2      | bytes | "Myth and legend" map                          |
-| unknown_4                 | 0x3      | bytes |                                                |
-| unknown_5                 | 0x1      | int   | "Race for Ardintinny" map                      |
-| unknown_next              | 0xA      | bytes | What's next?                                   |
+| contents                  | size                       | type  | description (optional)                         |
+|---------------------------|----------------------------|-------|------------------------------------------------|
+| unknown_start             | 0x0                        | bytes |                                                |
+| available_heroes          | 0x10                       | bytes |                                                |
+| available_heroes_arma_sha | 0x4 * map_version != 0xE   | bytes |                                                |
+| unknown_next_arma_sha1    | 0x4 * map_version != 0xE   | bytes | What's next?                                   |
+| unknown_list_len          | 0x1 * map_version != 0xE   | int   | What's next?                                   |
+| unknown_list              | 0x7 * unknown_list_len     | bytes | What's next?                                   |
+| unknown_next_arma_sha2    | 0x10 * map_version != 0xE  | bytes | What's next?                                   |
+| unknown_next_arma_sha3    | 0xF * unknown_list_len != 0| bytes | What's next?                                   |
+| unknown_next              | 0x1F                       | bytes | What's next?                                   |
+| unknown_next_sha1         | 0xF * map_version == 0x1C  | bytes | What's next?                                   |
+| rumour_count              | 0x4                        | int   | How big is the list of rumours                 |
+| unknown_next_sha2         | 0xAB * map_version == 0x1C | bytes | What's next?                                   |
+| unknown_next2             | 0x10                       | bytes | What's next?                                   |
