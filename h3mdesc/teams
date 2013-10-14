@@ -1,5 +1,6 @@
 | contents                  | size                         | type  | description (optional)                         |
 |---------------------------|------------------------------|-------|------------------------------------------------|
+| team_start                | 0x0                          | bytes |                                                |
 | number_of_teams           | 0x1                          | int   | Number of teams on the map (< #players)        |
 | red_in_team_number        | number_of_teams != 0x0       | int   |                                                |
 | blue_in_team_number       | number_of_teams != 0x0       | int   |                                                |
