@@ -22,5 +22,6 @@
 | unknown_arma_sha#2  | 0x2 * map_version != 0xE                              | bytes |                                |
 | unknown_arma_sha#3  | 0x2 * map_version != 0xE * champ_count == 0x0 * exists==0x0 | bytes |                          |
 | champ_empty_list    | 0x1 * map_version != 0xE * champ_count == 0x0 * exists| bytes |                                |
+| champ_nonempty_list | 0x1 * map_version != 0xE * champ_count != 0x0 * exists| bytes |                                |
 | champ_name_list     | champ_count                                           | champ | Champion namelist (id, string) |
 | player_end          | 0x0                                                   | bytes |                                |
