@@ -35,14 +35,15 @@ end
 function string:bytes_to_champ()
     if self:len() < 5 then return nil end
     local id = self:sub(1, 1):bytes_to_int()
-    local str_len = self:sub(2, 5):bytes_to_int()
+    local str_len = self:sub(2, 2):bytes_to_int()
+    local unknown = self:sub(3, 5):bytes_to_int()
     if(str_len >= 30000) then
         str_len = 0
 	print("Data length for champ name exceeds 30000.")
     end
     if self:len() < 5 + str_len then return 0, nil end
     local name = self:sub(6, 5 + str_len)
-    return 5 + str_len, champ.new(id, name)
+    return 5 + str_len, champ.new(id, name, unknown)
 end
 
 function string:substitute(map)

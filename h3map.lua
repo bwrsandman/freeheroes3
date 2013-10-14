@@ -129,7 +129,7 @@ function h3map:header_serialize(index)
         local label = v.datalabel
 	local out = self[index][label]
 	ret = ret..tostring(label).."\t"
-	if type(out) == "table" then
+	if type(out) == "table" and getmetatable(out) == nil then
             ret = ret.."["
             for j, w in ipairs(out) do
                 ret = ret..tostring(j).."\t"..tostring(w).."\n"
