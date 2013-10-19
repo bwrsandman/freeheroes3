@@ -25,47 +25,24 @@ end
 
 -- Map reading specific functions
 
+function string:bytes_to_int_verify(id, name)
+    return self:verify_length(self:bytes_to_int(), id, name)
+end
+
+function string:verify_length(len, id, name)
+    if(len >= 30000) then
+        print(string.format("Data length for %s #%d exceeds 30000(%d).", name, id, len))
+        return 0
+    end
+    return len
+end
+
 function string:bytes_to_coord()
     if self:len() ~= 3 then return nil end
     local x = self:sub(1, 1):bytes_to_int()
     local y = self:sub(2, 2):bytes_to_int()
     local u = self:sub(3, 3):bytes_to_int() ~= 0
     return coord.new(x, y, u)
-end
-
-function string:bytes_to_champ()
-    if self:len() < 5 then return nil end
-    local id = self:sub(1, 1):bytes_to_int()
-    local str_len = self:sub(2, 2):bytes_to_int()
-    local unknown = self:sub(3, 5):bytes_to_int()
-    if(str_len >= 30000) then
-        str_len = 0
-	print("Data length for champ name exceeds 30000.")
-    end
-    if self:len() < 5 + str_len then return 0, nil end
-    local name = self:sub(6, 5 + str_len)
-    return 5 + str_len, champ.new(id, name, unknown)
-end
-
-function string:bytes_to_rumor(id)
-    local pointer = 1
-    local title_len = self:sub(pointer, pointer + 3):bytes_to_int()
-    if(title_len >= 30000) then
-        print(string.format("Data length for rumor title #%d exceeds 30000(%d).", id, title_len))
-        title_len = 0
-    end
-    pointer = pointer + 4
-    local title = self:sub(pointer, pointer + title_len - 1)
-    pointer = pointer + title_len
-    local content_len = self:sub(pointer, pointer + 3):bytes_to_int()
-    if(content_len >= 30000) then
-        print(string.format("Data length for rumor content #%d exceeds 30000(%d).", id, content_len))
-        content_len = 0
-    end
-    pointer = pointer + 4
-    local content = self:sub(pointer, pointer + content_len - 1)
-    pointer = pointer + content_len
-    return pointer - 1, rumor.new(id, title, content)
 end
 
 function string:substitute(map)

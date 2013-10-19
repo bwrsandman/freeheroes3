@@ -2,6 +2,8 @@ require 'h3mdesc'
 require 'stringutils'
 require 'conf'
 require 'coord'
+require 'champ'
+require 'rumor'
 
 local player_colors = {"red", "blue", "tan", "green", "orange", "purple", "teal", "pink"}
 local descs = h3mdesc.getdescs()
@@ -51,25 +53,9 @@ function h3map:parse(index, desc)
         elseif t == "grid" then
             portion = "grid"
         elseif t == "champ" then
-            local list = {}
-            for i = 1, z do
-                portion = self.content:sub(self.cleared)
-                local champ_cleared, champ_ret = portion:bytes_to_champ()
-                list[i] = champ_ret
-                self.cleared = self.cleared + champ_cleared
-            end
-            z = 0
-            portion = list
+            z, portion = self:special_type(string.bytes_to_champ, z)
         elseif t == "rumor" then
-            local list = {}
-            for i = 1, z do
-                portion = self.content:sub(self.cleared)
-                local rumor_cleared, rumor_ret = portion:bytes_to_rumor(i)
-                list[i] = rumor_ret
-                self.cleared = self.cleared + rumor_cleared
-            end
-            z = 0
-            portion = list
+            z, portion = self:special_type(string.bytes_to_rumor, z)
         end
         h3m_map[k] = portion
         self.cleared = self.cleared + z
@@ -79,6 +65,17 @@ function h3map:parse(index, desc)
     end
     h3m_map.desc = desc
     self[index] = h3m_map
+end
+
+function h3map:special_type(bytes_to_type, z)
+    local list = {}
+    for i = 1, z do
+        local portion = self.content:sub(self.cleared)
+        local type_cleared, type_ret = bytes_to_type(portion, i)
+        list[i] = type_ret
+        self.cleared = self.cleared + type_cleared
+    end
+    return 0, list
 end
 
 function h3map:serialize()
@@ -142,7 +139,7 @@ function h3map:header_serialize(index)
         if type(out) == "table" and getmetatable(out) == nil then
             ret = ret.."["
             for j, w in ipairs(out) do
-                ret = ret..tostring(j).."\t"..tostring(w).."\n"
+                ret = ret..tostring(w).."\n"
             end
             ret = ret.."]\n"
         else
