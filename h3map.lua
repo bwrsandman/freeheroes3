@@ -50,16 +50,26 @@ function h3map:parse(index, desc)
             portion = portion:bytes_to_coord()
         elseif t == "grid" then
             portion = "grid"
-	elseif t == "champ" then
+        elseif t == "champ" then
             local list = {}
-	    for i = 1, z do
+            for i = 1, z do
                 portion = self.content:sub(self.cleared)
                 local champ_cleared, champ_ret = portion:bytes_to_champ()
                 list[i] = champ_ret
                 self.cleared = self.cleared + champ_cleared
             end
-	    z = 0
-	    portion = list
+            z = 0
+            portion = list
+        elseif t == "rumor" then
+            local list = {}
+            for i = 1, z do
+                portion = self.content:sub(self.cleared)
+                local rumor_cleared, rumor_ret = portion:bytes_to_rumor(i)
+                list[i] = rumor_ret
+                self.cleared = self.cleared + rumor_cleared
+            end
+            z = 0
+            portion = list
         end
         h3m_map[k] = portion
         self.cleared = self.cleared + z
@@ -127,14 +137,14 @@ function h3map:header_serialize(index)
     local ret = ""
     for i, v in ipairs(self[index].desc) do
         local label = v.datalabel
-	local out = self[index][label]
-	ret = ret..tostring(label).."\t"
-	if type(out) == "table" and getmetatable(out) == nil then
+        local out = self[index][label]
+        ret = ret..tostring(label).."\t"
+        if type(out) == "table" and getmetatable(out) == nil then
             ret = ret.."["
             for j, w in ipairs(out) do
                 ret = ret..tostring(j).."\t"..tostring(w).."\n"
             end
-	    ret = ret.."]\n"
+            ret = ret.."]\n"
         else
             ret = ret..tostring(out).."\n"
         end

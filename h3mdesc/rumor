@@ -1,0 +1,7 @@
+| contents    | size        | type  | description (optional)         |
+|-------------|-------------|-------|--------------------------------|
+| start       | 0x0         | bytes |                                |
+| title_len   | 0x4         | int   | How long is the rumour content |
+| title       | title_len   | str   |                                |
+| content_len | 0x4         | int   | How long is the rumour content |
+| content     | content_len | str   |                                |

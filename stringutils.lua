@@ -1,5 +1,6 @@
 require 'coord'
 require 'champ'
+require 'rumor'
 
 -- General string functions
 function string:trim()
@@ -44,6 +45,27 @@ function string:bytes_to_champ()
     if self:len() < 5 + str_len then return 0, nil end
     local name = self:sub(6, 5 + str_len)
     return 5 + str_len, champ.new(id, name, unknown)
+end
+
+function string:bytes_to_rumor(id)
+    local pointer = 1
+    local title_len = self:sub(pointer, pointer + 3):bytes_to_int()
+    if(title_len >= 30000) then
+        print(string.format("Data length for rumor title #%d exceeds 30000(%d).", id, title_len))
+        title_len = 0
+    end
+    pointer = pointer + 4
+    local title = self:sub(pointer, pointer + title_len - 1)
+    pointer = pointer + title_len
+    local content_len = self:sub(pointer, pointer + 3):bytes_to_int()
+    if(content_len >= 30000) then
+        print(string.format("Data length for rumor content #%d exceeds 30000(%d).", id, content_len))
+        content_len = 0
+    end
+    pointer = pointer + 4
+    local content = self:sub(pointer, pointer + content_len - 1)
+    pointer = pointer + content_len
+    return pointer - 1, rumor.new(id, title, content)
 end
 
 function string:substitute(map)
