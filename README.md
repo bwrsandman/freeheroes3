@@ -10,11 +10,11 @@ There is a python branch for implementation using pygame.
 
 
 The aim of this project is to:
-# [ ] Read the map file formats for all three versions
-# [ ] Display the assets properly
-# [ ] Reimplement gameplay
-# [ ] Reimplement the editor
-# [ ] Improve upon the game
+1. [ ] Read the map file formats for all three versions
+1. [ ] Display the assets properly
+1. [ ] Reimplement gameplay
+1. [ ] Reimplement the editor
+1. [ ] Improve upon the game
 
 
 # H3M file format
