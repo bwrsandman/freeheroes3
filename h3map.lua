@@ -15,26 +15,25 @@ function h3map.load(content)
     local self = setmetatable({}, h3map)
     self.cleared = 1
     self.content = content
-    self:parse("info", descs["info"])
-    for i, v in pairs(player_colors) do
+    self:parse("info")
+    --[[for i, v in pairs(player_colors) do
         local player_color = "player_" .. v
         self:parse(player_color, descs["player"])
         self[player_color].player_color = v
     end
     self:parse("victory", descs["victory"])
     self:parse("teams", descs["teams"])
-    self:parse("next", descs["next"])
+    self:parse("next", descs["next"])]]
     return self
 end
 
-function h3map:parse(index, desc)
+function h3map:parse(key, index, map_version)
     local h3m_map = {}
-    h3m_map.map_version = self.info and self.info.map_version
-    for j, v in ipairs(desc) do
+    for j, v in ipairs(descs[key]) do
         local k = v.datalabel
         local z = v.datalen
         local t = v.datatype
-        z = tonumber(z) or z:calculate(h3m_map)
+        z = tonumber(z) or z:calculate(h3m_map, map_version)
         if t == "str" or t == "bytes" then
             if(z >= 30000) then 
                 z = 0
@@ -56,15 +55,24 @@ function h3map:parse(index, desc)
             z, portion = self:special_type(string.bytes_to_champ, z)
         elseif t == "rumor" then
             z, portion = self:special_type(string.bytes_to_rumor, z)
+        elseif descs[t] then
+            local desc_table = {}
+            for i = 1, z do
+                desc_table[i] = self:parse(t, i, h3m_map.map_version)
+            end
+            z = 0
+            portion = desc_table
+            t = nil
         end
         h3m_map[k] = portion
         self.cleared = self.cleared + z
     end
-    if index ~= "info" then
-        h3m_map.map_version = nil
+    h3m_map.desc = descs[key]
+    h3m_map.index = index
+    if index == nil then
+        self[key] = h3m_map
     end
-    h3m_map.desc = desc
-    self[index] = h3m_map
+    return h3m_map
 end
 
 function h3map:special_type(bytes_to_type, z)
@@ -115,33 +123,30 @@ function h3map:serialize()
     )
 end
 
-function h3map:players_serialize(c)
+function h3map:header_serialize(key, indent, index)
     local ret = ""
-    for i, v in pairs(player_colors) do
-        if c.print.player[v] then
-            local player_color = "player_" .. v
-            ret = ret .. v .. " player:\n" .. self:header_serialize(player_color) .. "\n"
-        end
-    end
-    return (
-        "Players:\n" ..
-        "--------\n" ..
-        ret
-    )
-end
-
-function h3map:header_serialize(index)
-    local ret = ""
-    for i, v in ipairs(self[index].desc) do
+    indent = indent or 0
+    local obj = index == nil and self[key] or self.info[key][index]
+    for i, v in ipairs(obj.desc) do
         local label = v.datalabel
-        local out = self[index][label]
+        local t = v.datatype
+        local out = obj[label]
+        -- Indent if child of another label, in case of lists
+        ret = ret..string.rep("\t", indent)
         ret = ret..tostring(label).."\t"
+        -- In case of custom data structures and lists
         if type(out) == "table" and getmetatable(out) == nil then
-            ret = ret.."["
+            ret = ret.."["..(table.getn(out) > 0 and "\n" or "]\n")
             for j, w in ipairs(out) do
-                ret = ret..tostring(w).."\n"
+                if descs[t] then -- list items
+                    ret = ret..self:header_serialize(label, indent + 1, j).."\n"
+                else -- custom datastructures
+                    ret = ret..string.rep("\t", indent + 1)
+                    ret = ret..tostring(w).."\n"
+                end
             end
-            ret = ret.."]\n"
+            -- Indent to match parent indentation, unless list was empty
+            ret = ret..(table.getn(out) > 0 and (string.rep("\t", indent).."]\n") or " ")
         else
             ret = ret..tostring(out).."\n"
         end

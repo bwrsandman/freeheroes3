@@ -45,9 +45,9 @@ function string:bytes_to_coord()
     return coord.new(x, y, u)
 end
 
-function string:substitute(map)
+function string:substitute(map, map_version)
     local s = self:trim()
-    local ret = map[s]
+    local ret = (s == "map_version" and map_version) or map[s]
     if ret == nil then
         ret = tonumber(s) or s
     elseif type(ret) == "boolean" then
@@ -57,27 +57,27 @@ function string:substitute(map)
     return ret
 end
 
-function string:calculate(map)
+function string:calculate(map, map_version)
     local ret = nil
     local eq = nil
     -- Contains multiplier, perform calculation
     if self:match("%*") then
         ret = 1
         for i, x in pairs(self:split("*")) do
-            local sub = x:substitute(map)
+            local sub = x:substitute(map, map_version)
             if not tonumber(sub) then
-                sub = sub:calculate(map)
+                sub = sub:calculate(map, map_version)
             end
             ret = ret * sub
         end
     elseif self:match("!=") then
         eq = self:split("!=")
         assert(#eq == 2)
-        ret = (eq[1]:substitute(map) ~= eq[2]:substitute(map)) and 1 or 0
+        ret = (eq[1]:substitute(map, map_version) ~= eq[2]:substitute(map, map_version)) and 1 or 0
     elseif self:match("==") then
         eq = self:split("==")
         assert(#eq == 2)
-        ret = (eq[1]:substitute(map) == eq[2]:substitute(map)) and 1 or 0
+        ret = (eq[1]:substitute(map, map_version) == eq[2]:substitute(map, map_version)) and 1 or 0
     else
         ret = map[self] or self
     end

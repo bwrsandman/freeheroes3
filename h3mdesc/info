@@ -1,12 +1,13 @@
-| contents                | size                | type  | description (optional)                      |
-|-------------------------|---------------------|-------|---------------------------------------------|
-| map_version             | 0x4                 | int   | Restoration(14), Armageddon(21), Shadow(28) |
-| map_playable            | 0x1                 | bool  |                                             |
-| map_size                | 0x4                 | int   | Maps are square, this is one side.          |
-| has underground         | 0x1                 | bool  |                                             |
-| title length            | 0x4                 | int   |                                             |
-| title                   | title length        | str   |                                             |
-| description length      | 0x4                 | int   |                                             |
-| description             | description length  | str   |                                             |
-| difficulty              | 0x1                 | int   |                                             |
-| level_cap               | map_version != 0xE  | int   | Armageddon and Shadow of death only         |
+| contents                | size                | type   | description (optional)                      |
+|-------------------------|---------------------|--------|---------------------------------------------|
+| map_version             | 0x4                 | int    | Restoration(14), Armageddon(21), Shadow(28) |
+| map_playable            | 0x1                 | bool   |                                             |
+| map_size                | 0x4                 | int    | Maps are square, this is one side.          |
+| has underground         | 0x1                 | bool   |                                             |
+| title length            | 0x4                 | int    |                                             |
+| title                   | title length        | str    |                                             |
+| description length      | 0x4                 | int    |                                             |
+| description             | description length  | str    |                                             |
+| difficulty              | 0x1                 | int    |                                             |
+| level_cap               | map_version != 0xE  | int    | Armageddon and Shadow of death only         |
+| players                 | 0x8                 | player |                                             |
