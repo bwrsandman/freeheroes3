@@ -30,7 +30,7 @@ function h3map.parse(key, index, map_version)
         if t == "str" or t == "bytes" then
             if(z >= 30000) then 
                 z = 0
-                print("\27[31WARNING:\27[39 Data length for "..k.." exceeds 30000.")
+                print("\27[33mWARNING:\27[39m Data length for "..k.." exceeds 30000.")
             end
         end
         local portion = content:sub(cleared, cleared + z - 1)
@@ -103,8 +103,12 @@ end
 function h3map:_serialize(print_conf, indent)
     -- Initialize variables
     local ret = ""
+    print_conf = print_conf or {}
     indent = indent or 0
-    if print_conf[self.label] == false or print_conf[self.alias] == false then return ret end
+    -- Check if this alias or label was meant to be hidden
+    if print_conf[self.alias] == false or print_conf[self.label] == false then
+        return ret
+    end
     -- Label if there is an alias
     if self.alias then
         ret = ret:append_indented_line(indent, self.alias)

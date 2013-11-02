@@ -1,6 +1,4 @@
 require 'coord'
-require 'champ'
-require 'rumor'
 
 -- General string functions
 function string:trim()
@@ -62,7 +60,6 @@ function string:substitute(map, map_version)
     elseif type(ret) == "boolean" then
         ret = ret and 1 or 0
     end
-    assert(ret ~= nil)
     return ret
 end
 
@@ -90,7 +87,9 @@ function string:calculate(map, map_version)
     else
         ret = map[self] or self
     end
-    ret = tonumber(ret)
-    assert(ret ~= nil)
-    return ret
+    if tonumber(ret) == nil then
+        print("\27[31mERROR:\27[39m Could not substitute " .. ret)
+        ret = 0
+    end
+    return tonumber(ret)
 end
