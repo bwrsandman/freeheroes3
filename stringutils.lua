@@ -52,9 +52,13 @@ function string:bytes_to_coord()
     return coord.new(x, y, u)
 end
 
-function string:substitute(map, map_version)
+function string:substitute(map)
+    -- string.substitute("a", {a=1, parent = {a = 2, b=3}}, 0)
+    -- 1
+    -- string.substitute("b", {a=1, parent = {a = 2, b=3}}, 0)
+    -- 3
     local s = self:trim()
-    local ret = (s == "map_version" and map_version) or map[s]
+    local ret = (map[s] == nil and map._parent and s:substitute(map._parent)) or map[s]
     if ret == nil then
         ret = tonumber(s) or s
     elseif type(ret) == "boolean" then
@@ -63,33 +67,34 @@ function string:substitute(map, map_version)
     return ret
 end
 
-function string:calculate(map, map_version)
+function string:calculate(map)
     local ret = nil
     local eq = nil
     -- Contains multiplier, perform calculation
     if self:match("%*") then
         ret = 1
         for i, x in pairs(self:split("*")) do
-            local sub = x:substitute(map, map_version)
+            local sub = x:substitute(map)
             if not tonumber(sub) then
-                sub = sub:calculate(map, map_version)
+                sub = sub:calculate(map)
             end
             ret = ret * sub
         end
     elseif self:match("!=") then
         eq = self:split("!=")
         assert(#eq == 2)
-        ret = (eq[1]:substitute(map, map_version) ~= eq[2]:substitute(map, map_version)) and 1 or 0
+        ret = (eq[1]:substitute(map) ~= eq[2]:substitute(map)) and 1 or 0
     elseif self:match("==") then
         eq = self:split("==")
         assert(#eq == 2)
-        ret = (eq[1]:substitute(map, map_version) == eq[2]:substitute(map, map_version)) and 1 or 0
+        ret = (eq[1]:substitute(map) == eq[2]:substitute(map)) and 1 or 0
     else
-        ret = map[self] or self
+        ret = self:substitute(map)
     end
     if tonumber(ret) == nil then
         print("\27[31mERROR:\27[39m Could not substitute " .. ret)
         ret = 0
     end
-    return tonumber(ret)
+    ret = tonumber(ret)
+    return ret
 end

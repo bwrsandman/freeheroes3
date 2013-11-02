@@ -20,45 +20,41 @@ function h3map.load(c)
     return h3map.parse("info")
 end
 
-function h3map.parse(key, index, map_version)
-    local self = setmetatable({}, h3map)
+function h3map.parse(key, index, parent)
+    local self = setmetatable({_parent=parent}, h3map)
     for j, v in ipairs(descs[key]) do
-        local k = v.label
-        local z = v.length
-        local t = v.type
-        z = tonumber(z) or z:calculate(self, map_version)
-        if t == "str" or t == "bytes" then
-            if(z >= 30000) then 
-                z = 0
-                print("\27[33mWARNING:\27[39m Data length for "..k.." exceeds 30000.")
+        local size = tonumber(v.length) or v.length:calculate(self)
+        if v.type == "str" or v.type == "bytes" then
+            if(size >= 30000) then
+                size = 0
+                print("\27[33mWARNING:\27[39m Data length for " .. v.label .. " exceeds 30000.")
             end
         end
-        local portion = content:sub(cleared, cleared + z - 1)
-        if t == "bytes" then
+        local portion = content:sub(cleared, cleared + size - 1)
+        if v.type == "bytes" then
             portion = string.format("offset: 0x%X, data: %q", cleared - 1, portion)
-        elseif t == "int" then
+        elseif v.type == "int" then
             portion = portion:bytes_to_int()
-        elseif t == "bool" then
+        elseif v.type == "bool" then
             portion = portion:bytes_to_int() ~= 0
-        elseif t == "coord" then
+        elseif v.type == "coord" then
             portion = portion:bytes_to_coord()
-        elseif t == "grid" then
+        elseif v.type == "grid" then
             portion = "grid"
-        elseif t == "champ" then
-            z, portion = self:special_type(string.bytes_to_champ, z)
-        elseif t == "rumor" then
-            z, portion = self:special_type(string.bytes_to_rumor, z)
-        elseif descs[t] then
+        elseif v.type == "champ" then
+            size, portion = self:special_type(string.bytes_to_champ, size)
+        elseif v.type == "rumor" then
+            size, portion = self:special_type(string.bytes_to_rumor, size)
+        elseif descs[v.type] then
             portion = {}
-            for i = 1, z do
-                portion[i] = h3map.parse(t, i, self.map_version)
-                if t == "player" then portion[i].alias = player_colors[i] end
+            for i = 1, size do
+                portion[i] = h3map.parse(v.type, i, self)
+                if v.type == "player" then portion[i].alias = player_colors[i] end
             end
-            z = 0
-            t = nil
+            size = 0
         end
-        self[k] = portion
-        cleared = cleared + z
+        self[v.label] = portion
+        cleared = cleared + size
     end
     self.desc = descs[key]
     self.index = index
