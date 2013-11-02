@@ -30,9 +30,9 @@ function h3mdesc.read(filename)
             match = line:gmatch("|([^|]*)|([^|]*)|([^|]*)|.*")
             self[i] = {}
             for c, z, t in match do
-                self[i].datalabel = c:trim()
-                self[i].datalen = z:trim()
-                self[i].datatype = t:trim()
+                self[i].label = c:trim()
+                self[i].length = z:trim()
+                self[i].type = t:trim()
             end
         end
         i = i + 1
@@ -45,10 +45,10 @@ function h3mdesc:serialize()
     local ret = ""
     if self then
         for i, v in ipairs(self) do
-            ret = ret..v.datalabel..": "..v.datalen..", "..v.datatype.."\n"
+            ret = ret..v.label..": "..v.length..", "..v.type.."\n"
         end
     end
     return ret
 end
 
-h3mdesc.__tostring = h3mdesc.serialize()
+h3mdesc.__tostring = h3mdesc.serialize

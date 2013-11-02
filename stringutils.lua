@@ -23,6 +23,15 @@ function string:bytes_to_int()
     return n
 end
 
+function string:append_indented_line(indent, ...)
+    local ret = self .. string.rep("\t", indent)
+    for n = 1, select("#", ...) do
+        ret = ret .. (n > 1 and "\t" or "") .. tostring(select(n, ...))
+    end
+    ret = ret .. "\n"
+    return ret
+end
+
 -- Map reading specific functions
 
 function string:bytes_to_int_verify(id, name)
