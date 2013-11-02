@@ -59,6 +59,7 @@ function h3map:parse(key, index, map_version)
             local desc_table = {}
             for i = 1, z do
                 desc_table[i] = self:parse(t, i, h3m_map.map_version)
+                if t == "player" then desc_table[i].alias = player_colors[i] end
             end
             z = 0
             portion = desc_table
@@ -107,48 +108,57 @@ function h3map:serialize()
         }
     }
     h3map_conf(c)
+    -- TODO: Can probably get rid of key
     return (
-        (c.print.info and ("Info\n----\n" .. self:header_serialize("info") ..
-            "\n") or "") ..
+        (c.print.info and ("Info\n----\n" .. self:header_serialize("info", c.print) ..
+            "\n") or "") ..--[[
         (c.print.players and self:players_serialize(c) or "") ..
-        (c.print.victory and ("Victory\n-------\n" .. self:header_serialize("victory") ..
+        (c.print.victory and ("Victory\n-------\n" .. self:header_serialize("victory", c.print) ..
             "\n") or "") ..
-        (c.print.teams and ("Teams\n-----\n" .. self:header_serialize("teams") ..
+        (c.print.teams and ("Teams\n-----\n" .. self:header_serialize("teams", c.print) ..
             "\n") or "") ..
-        (c.print.next and ("Next\n----\n" .. self:header_serialize("next") ..
+        (c.print.next and ("Next\n----\n" .. self:header_serialize("next", c.print) ..
             "\n") or "") ..
         (c.print.offset and (string.format("Stopped parsing at offset: 0x%X", self.cleared - 1) ..
-        "\n") or "") ..
+        "\n") or "") ..]]
         "\n"
     )
 end
 
-function h3map:header_serialize(key, indent, index)
+function h3map:header_serialize(key, print_conf, indent, index)
     local ret = ""
     indent = indent or 0
     local obj = index == nil and self[key] or self.info[key][index]
+    local alias = index and obj.alias
+    if print_conf[alias] == false then return ret end
+    if alias then
+        ret = ret..string.rep("\t", indent)..alias.."\n"
+        ret = ret..string.rep("\t", indent)..string.rep("-", string.len(alias)).."\n"
+    end
     for i, v in ipairs(obj.desc) do
         local label = v.datalabel
         local t = v.datatype
         local out = obj[label]
-        -- Indent if child of another label, in case of lists
-        ret = ret..string.rep("\t", indent)
-        ret = ret..tostring(label).."\t"
-        -- In case of custom data structures and lists
-        if type(out) == "table" and getmetatable(out) == nil then
-            ret = ret.."["..(table.getn(out) > 0 and "\n" or "]\n")
-            for j, w in ipairs(out) do
-                if descs[t] then -- list items
-                    ret = ret..self:header_serialize(label, indent + 1, j).."\n"
-                else -- custom datastructures
-                    ret = ret..string.rep("\t", indent + 1)
-                    ret = ret..tostring(w).."\n"
+        if print_conf[label] == nil or print_conf[label] then
+            -- Indent if child of another label, in case of lists
+            ret = ret..string.rep("\t", indent)
+            ret = ret..tostring(label).."\t"
+            -- In case of custom data structures and lists
+            if type(out) == "table" and getmetatable(out) == nil then
+                ret = ret.."["..(table.getn(out) > 0 and "\n" or "]\n")
+                for j, w in ipairs(out) do
+                    if descs[t] then -- list items
+                        ret = ret..self:header_serialize(label, print_conf[t], indent + 1, j).."\n"
+                    else -- custom datastructures
+                        ret = ret..string.rep("\t", indent + 1)
+                        ret = ret..tostring(w).."\n"
+                    end
                 end
+                -- Indent to match parent indentation, unless list was empty
+                ret = ret..(table.getn(out) > 0 and (string.rep("\t", indent).."]\n") or " ")
+            else
+                ret = ret..tostring(out).."\n"
             end
-            -- Indent to match parent indentation, unless list was empty
-            ret = ret..(table.getn(out) > 0 and (string.rep("\t", indent).."]\n") or " ")
-        else
-            ret = ret..tostring(out).."\n"
         end
     end
     return ret
