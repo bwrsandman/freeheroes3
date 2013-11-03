@@ -16,7 +16,7 @@
 | champion            | 0x1                                                   | int   | Is 0xFF if there are no heroes |
 | unknown#3           | 0x1 * champion != 0xFF                                | int   |                                |
 | champ_name_length   | 0x4 * champion != 0xFF                                | int   |                                |
-| champ_customname    | 0x1 * champ_name_length                               | bytes |                                |
+| champ_custom_name   | 0x1 * champ_name_length                               | bytes |                                |
 | champ_sha           | 0x1 * map_version != 0xE                              | int   |                                |
 | champ_count         | 0x1 * champ_sha != 0xFF * map_version != 0xE * exists | int   |                                |
 | unknown_arma_sha#2  | 0x2 * map_version != 0xE                              | bytes |                                |

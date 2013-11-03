@@ -14,8 +14,8 @@ The aim of this project is to:
 
 1. [ ] Read the map file formats for all three versions
 1. [ ] Display the assets properly
-1. [ ] Reimplement gameplay
-1. [ ] Reimplement the editor
+1. [ ] Re-implement gameplay
+1. [ ] Re-implement the editor
 1. [ ] Improve upon the game
 
 
@@ -54,22 +54,22 @@ For the game to find these maps, edit conf.lua.
 | victory_type              | 0x1                                                 | int    | 0xff when none                              |
 | allow_normal_victory      | victory_type != 0xff                                | bool   | 1 when also allow normal victory            |
 | victory_applies_to_pc     | victory_type != 0xff                                | bool   | victory condition also applies to PC        |
-| item_to_aquire            | 0x1 * victory_type == 0x0                           | int    | Item referece, if artefact victory          |
+| item_to_acquire           | 0x1 * victory_type == 0x0                           | int    | Item reference, if artifact victory         |
 | unknown_arma_sha0         | 0x1 * map_version != 0xE * victory_type == 0x0      | int    |                                             |
-| creatures_type            | 0x1 * victory_type == 0x1                           | int    | Type of creature, if resouce victory        |
+| creatures_type            | 0x1 * victory_type == 0x1                           | int    | Type of creature, if resource victory       |
 | unknown_arma_sha1         | 0x1 * map_version != 0xE * victory_type == 0x1      | int    |                                             |
 | creatures_needed          | 0x4 * victory_type == 0x1                           | int    | Num of creatures, if creature victory       |
 | resources_type            | 0x1 * victory_type == 0x2                           | int    | Type of resource, if resource victory       |
 | resources_needed          | 0x4 * victory_type == 0x2                           | int    | Num of resources, if resource victory       |
-| town_to_upgrade           | 0x3 * victory_type == 0x3                           | coord  | Coordonates of the town to upgrade          |
+| town_to_upgrade           | 0x3 * victory_type == 0x3                           | coord  | Coordinates of the town to upgrade          |
 | hall_upgrade              | 0x1 * victory_type == 0x3                           | int    | Hall level for, if upgrade victory          |
 | castle_upgrade            | 0x1 * victory_type == 0x3                           | int    | Castle level for, if upgrade victory        |
-| town_to_grail             | 0x3 * victory_type == 0x4                           | coord  | Coordonate of the town to grail             |
-| hero_to_defeat            | 0x3 * victory_type == 0x5                           | coord  | Coordonate of the hero to defeat            |
-| town_to_capture           | 0x3 * victory_type == 0x6                           | coord  | Coordonate of the town to capture           |
-| monster_to_defeat         | 0x3 * victory_type == 0x7                           | coord  | Coordonate of monsters to defeat            |
-| item_to_transport         | 0x1 * victory_type == 0xA                           | int    | Item referece, if transport victory         |
-| item_destination          | 0x3 * victory_type == 0xA                           | coord  | Coordonate to transport item to             |
+| town_to_grail             | 0x3 * victory_type == 0x4                           | coord  | Coordinate of the town to grail             |
+| hero_to_defeat            | 0x3 * victory_type == 0x5                           | coord  | Coordinate of the hero to defeat            |
+| town_to_capture           | 0x3 * victory_type == 0x6                           | coord  | Coordinate of the town to capture           |
+| monster_to_defeat         | 0x3 * victory_type == 0x7                           | coord  | Coordinate of monsters to defeat            |
+| item_to_transport         | 0x1 * victory_type == 0xA                           | int    | Item reference, if transport victory        |
+| item_destination          | 0x3 * victory_type == 0xA                           | coord  | Coordinate to transport item to             |
 | defeat_type               | 0x1                                                 | int    | 0xff when none                              |
 | defeat_hero_dies          | 0x3 * defeat_type == 0x0                            | coord  | Lose if this hero dies                      |
 | defeat_town_lost          | 0x3 * defeat_type == 0x1                            | coord  | Lose if this town is captured               |
@@ -118,7 +118,7 @@ For the game to find these maps, edit conf.lua.
 | champion            | 0x1                                                   | int   | Is 0xFF if there are no heroes |
 | unknown#3           | 0x1 * champion != 0xFF                                | int   |                                |
 | champ_name_length   | 0x4 * champion != 0xFF                                | int   |                                |
-| champ_customname    | 0x1 * champ_name_length                               | bytes |                                |
+| champ_custom_name   | 0x1 * champ_name_length                               | bytes |                                |
 | champ_sha           | 0x1 * map_version != 0xE                              | int   |                                |
 | champ_count         | 0x1 * champ_sha != 0xFF * map_version != 0xE * exists | int   |                                |
 | unknown_arma_sha#2  | 0x2 * map_version != 0xE                              | bytes |                                |

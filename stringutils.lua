@@ -60,8 +60,8 @@ function string:substitute(map)
 end
 
 function string:calculate(map)
-    local ret = nil
-    local eq = nil
+    local ret
+    local eq
     -- Contains multiplier, perform calculation
     if self:match("%*") then
         ret = 1

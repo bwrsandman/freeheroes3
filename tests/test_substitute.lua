@@ -7,7 +7,7 @@ function testcalculate(str, expect)
     print("************* TEST " .. testnum)
     print("Expression:", str)
     print("Expected:  ", expect)
-    result = str:calculate(map)
+    local result = str:calculate(map)
     if expect ~= result then
         print ("    ---- ERROR")
     print("Got:       ", result)

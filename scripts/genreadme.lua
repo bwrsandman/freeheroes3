@@ -33,8 +33,8 @@ The aim of this project is to:
 
 1. [ ] Read the map file formats for all three versions
 1. [ ] Display the assets properly
-1. [ ] Reimplement gameplay
-1. [ ] Reimplement the editor
+1. [ ] Re-implement gameplay
+1. [ ] Re-implement the editor
 1. [ ] Improve upon the game
 
 

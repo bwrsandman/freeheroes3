@@ -27,7 +27,7 @@ function h3mdesc.read(filename)
     for line in file:lines() do
         line = line:trim()
         if line ~= "" then
-            match = line:gmatch("|([^|]*)|([^|]*)|([^|]*)|.*")
+            local match = line:gmatch("|([^|]*)|([^|]*)|([^|]*)|.*")
             self[i] = {}
             for c, z, t in match do
                 self[i].label = c:trim()

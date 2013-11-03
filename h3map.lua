@@ -82,7 +82,8 @@ function h3map:serialize()
         },
     }
     h3map_conf(c)
-    return self:_serialize(c.print)
+    local ret = self:_serialize(c.print)
+    return ret
 end
 
 function h3map:_serialize(print_conf, indent)
