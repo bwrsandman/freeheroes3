@@ -84,10 +84,7 @@ function h3map:serialize()
                 teal = true,
                 pink = true,
             },
-            victory = true,
-            next = true,
-            offset = true,
-        }
+        },
     }
     h3map_conf(c)
     return self:_serialize(c.print)
@@ -128,7 +125,10 @@ function h3map:_serialize(print_conf, indent)
                 -- Close brackets for list, unless empty
                 if table.getn(data) > 0 then ret = ret:append_indented_line(indent, "]") end
             else
+                -- Highlight fields which are bytes
+                if (v.type == "bytes") then ret = ret .. "\27[34m" end
                 ret = ret:append_indented_line(indent, v.label, v.type, data)
+                if (v.type == "bytes") then ret = ret .. "\27[39m" end
             end
         end
     end

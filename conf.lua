@@ -36,8 +36,6 @@ function h3map_conf(t)
     t.print.player.purple = false
     t.print.player.teal = false
     t.print.player.pink = false
-    t.print.victory = false
-    t.print.teams = true
     t.print.next = true
     t.print.offset = false
 end
@@ -49,8 +47,6 @@ function h3mdesc_conf(t)
         "info",
         "player",
         "champ",
-        "victory",
-        "teams",
         "next",
     }
 end
