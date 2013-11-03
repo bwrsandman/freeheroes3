@@ -55,7 +55,7 @@
 | unknown_arma_sha4         | 0xF * unknown_list_len != 0                         | bytes  | What's next?                                |
 | unknown0                  | 0x1F                                                | bytes  | What's next?                                |
 | unknown_sha0              | 0xF * map_version == 0x1C * unknown_list_len == 0x0 | bytes  | Does not work with A Viking We Shall Go but not A Warm and Familiar Place |
-| rumour_count              | 0x4                                                 | int    | How big is the list of rumours              |
-| rumours                   | rumour_count                                        | rumor  |                                             |
+| rumor_count               | 0x4                                                 | int    | How big is the list of rumours              |
+| rumors                    | rumor_count                                         | rumor  |                                             |
 | unknown_sha1              | 0xAB * map_version == 0x1C                          | bytes  | What's next?                                |
 | unknown1                  | 0x10                                                | bytes  | What's next?                                |

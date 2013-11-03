@@ -45,5 +45,6 @@ function h3mdesc_conf(t)
         "info",
         "player",
         "champ",
+        'rumor',
     }
 end
