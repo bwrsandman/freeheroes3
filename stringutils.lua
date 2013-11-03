@@ -44,14 +44,6 @@ function string:verify_length(len, id, name)
     return len
 end
 
-function string:bytes_to_coord()
-    if self:len() ~= 3 then return nil end
-    local x = self:sub(1, 1):bytes_to_int()
-    local y = self:sub(2, 2):bytes_to_int()
-    local u = self:sub(3, 3):bytes_to_int() ~= 0
-    return coord.new(x, y, u)
-end
-
 function string:substitute(map)
     -- string.substitute("a", {a=1, parent = {a = 2, b=3}}, 0)
     -- 1

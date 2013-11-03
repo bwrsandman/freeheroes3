@@ -105,7 +105,7 @@ function h3map:_serialize(print_conf, indent)
         if print_conf[v.label] == nil or print_conf[v.label] then
             local data = self[v.label]
             -- If type is table, the we have a list of something (eg. players)
-            if type(data) == "table" then
+            if type(data) == "table" and getmetatable(data) == nil then
                 -- Open brackets for list, unless empty
                 ret = ret:append_indented_line(indent, v.label, table.getn(data) > 0 and "[" or "empty")
                 -- Go through list and print recursively
