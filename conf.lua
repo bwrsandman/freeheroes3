@@ -48,6 +48,7 @@ function h3mdesc_conf(t)
     t.filenames = {
         "info",
         "player",
+        "champ",
         "victory",
         "teams",
         "next",

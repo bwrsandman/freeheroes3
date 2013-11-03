@@ -1,6 +1,6 @@
-| contents            | size                     | type  | description (optional)    |
-|---------------------|--------------------------|-------|---------------------------|
-| champ_arma_sha      | 0x1                      | int   | id number of champ        |
-| champ_arma_sha_len  | 0x1 * champ_exists_sha   | int   |                           |
-| unknown             | 0x3 * champ_exists_sha   | bytes |                           |
-| champ_arma_sha_name | 0x1 * champ_arma_sha_len | str   |                           |
+| contents       | size                     | type  | description (optional)    |
+|----------------|--------------------------|-------|---------------------------|
+| champ_id       | 0x1                      | int   | id number of champ        |
+| champ_name_len | 0x1                      | int   |                           |
+| champ_unknown  | 0x3                      | bytes |                           |
+| champ_name     | 0x1 * champ_name_len     | str   |                           |

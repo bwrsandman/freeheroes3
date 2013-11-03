@@ -2,7 +2,6 @@ require 'h3mdesc'
 require 'stringutils'
 require 'conf'
 require 'coord'
-require 'champ'
 require 'rumor'
 
 local player_colors = {"red", "blue", "tan", "green", "orange", "purple", "teal", "pink"}
@@ -41,8 +40,6 @@ function h3map.parse(key, index, parent)
             portion = portion:bytes_to_coord()
         elseif v.type == "grid" then
             portion = "grid"
-        elseif v.type == "champ" then
-            size, portion = self:special_type(string.bytes_to_champ, size)
         elseif v.type == "rumor" then
             size, portion = self:special_type(string.bytes_to_rumor, size)
         elseif descs[v.type] then
