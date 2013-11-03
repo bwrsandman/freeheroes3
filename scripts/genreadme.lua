@@ -63,7 +63,7 @@ for i, v in ipairs(c.filenames) do
 end
 -- Second pass to make links
 for _, v in ipairs(c.filenames) do
-    out = out:gsub('(|[^|]*|[^|]*|%s)'..v..'(%s|)', '%1['..v..'](#'..v..')%2')
+    out = out:gsub('(|[^|]*|[^|]*|%s*)'..v..'(%s*|)', '%1['..v..'](#'..v..')%2')
 end
 
 local file = assert(io.open("README.md", "w"))

@@ -95,7 +95,7 @@ For the game to find these maps, edit conf.lua.
 | unknown0                  | 0x1F                                                | bytes  | What's next?                                |
 | unknown_sha0              | 0xF * map_version == 0x1C * unknown_list_len == 0x0 | bytes  | Does not work with A Viking We Shall Go but not A Warm and Familiar Place |
 | rumor_count               | 0x4                                                 | int    | How big is the list of rumours              |
-| rumors                    | rumor_count                                         | rumor  |                                             |
+| rumors                    | rumor_count                                         | [rumor](#rumor)  |                                             |
 | unknown_sha1              | 0xAB * map_version == 0x1C                          | bytes  | What's next?                                |
 | unknown1                  | 0x10                                                | bytes  | What's next?                                |
 
