@@ -49,7 +49,7 @@ For the game to find these maps, edit conf.lua.
 | description               | description length                                  | str    |                                             |
 | difficulty                | 0x1                                                 | int    |                                             |
 | level_cap                 | map_version != 0xE                                  | int    | Armageddon and Shadow of death only         |
-| players                   | 0x8                                                 | player |                                             |
+| players                   | 0x8                                                 | [player](#player) |                                             |
 | victory_condition_start   | 0x0                                                 | bytes  | ================ VICTORY ================== |
 | victory_type              | 0x1                                                 | int    | 0xff when none                              |
 | allow_normal_victory      | victory_type != 0xff                                | bool   | 1 when also allow normal victory            |
@@ -125,7 +125,7 @@ For the game to find these maps, edit conf.lua.
 | unknown_arma_sha#3  | 0x2 * map_version != 0xE * champ_count == 0x0 * exists==0x0 | bytes |                          |
 | champ_empty_list    | 0x1 * map_version != 0xE * champ_count == 0x0 * exists| bytes |                                |
 | champ_nonempty_list | 0x1 * map_version != 0xE * champ_count != 0x0 * exists| bytes |                                |
-| champ_name_list     | champ_count                                           | champ | Champion namelist (id, string) |
+| champ_name_list     | champ_count                                           | [champ](#champ) | Champion namelist (id, string) |
 | player_end          | 0x0                                                   | bytes |                                |
 
 ### Champ

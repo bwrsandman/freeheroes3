@@ -59,9 +59,11 @@ For the game to find these maps, edit conf.lua.
 
 filenames = c.filenames
 for i, v in ipairs(c.filenames) do
-    if v ~= 'next' then
-        out = out..document_file(c.prefix, v)
-    end
+    out = out..document_file(c.prefix, v)
+end
+-- Second pass to make links
+for _, v in ipairs(c.filenames) do
+    out = out:gsub('(|[^|]*|[^|]*|%s)'..v..'(%s|)', '%1['..v..'](#'..v..')%2')
 end
 
 local file = assert(io.open("README.md", "w"))
