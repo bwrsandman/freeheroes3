@@ -64,10 +64,6 @@ for i, v in ipairs(c.filenames) do
     end
 end
 
-out = out.."## Custom types\n\n"
-out = out..document_file(c.prefix, 'champ')
-out = out..document_file(c.prefix, 'rumor')
-
 local file = assert(io.open("README.md", "w"))
 file:write(out)
 file:close()

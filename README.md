@@ -145,22 +145,3 @@ For the game to find these maps, edit conf.lua.
 | content_len | 0x4         | int   | How long is the rumour content |
 | content     | content_len | str   |                                |
 
-## Custom types
-
-### Champ
-| contents       | size                     | type  | description (optional)    |
-|----------------|--------------------------|-------|---------------------------|
-| champ_id       | 0x1                      | int   | id number of champ        |
-| champ_name_len | 0x1                      | int   |                           |
-| champ_unknown  | 0x3                      | bytes |                           |
-| champ_name     | 0x1 * champ_name_len     | str   |                           |
-
-### Rumor
-| contents    | size        | type  | description (optional)         |
-|-------------|-------------|-------|--------------------------------|
-| start       | 0x0         | bytes |                                |
-| title_len   | 0x4         | int   | How long is the rumour content |
-| title       | title_len   | str   |                                |
-| content_len | 0x4         | int   | How long is the rumour content |
-| content     | content_len | str   |                                |
-
